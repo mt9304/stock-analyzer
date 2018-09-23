@@ -76,7 +76,7 @@ public class RoutineTest
 	routine.stopRunning();
 	Thread.sleep(500);
 	Boolean result = routine.getRunning();
-	System.out.println("AfterA: " + routine.getState());
+	System.out.println("After A: " + routine.getState());
 	assertEquals(false, result);
     }
     
@@ -91,7 +91,7 @@ public class RoutineTest
 	routine.stopRunning();
 	Thread.sleep(500);
 	Boolean result = routine.getRunning();
-	System.out.println("AfterB: " + routine.getState());
+	System.out.println("After B: " + routine.getState());
 	assertEquals(false, result);
     }
 
