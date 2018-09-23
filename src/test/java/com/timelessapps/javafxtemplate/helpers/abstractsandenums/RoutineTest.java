@@ -27,7 +27,7 @@ public class RoutineTest
     @Test
     public void testWaitIfPaused() throws InterruptedException 
     {
-	Routine routine = new Routine();
+	Routine routine = new Routine("testWaitIfPaused");
 	routine.setDaemon(true);
 	routine.start();
 	routine.pauseRunning();
@@ -40,7 +40,7 @@ public class RoutineTest
     @Test
     public void testPauseRunning()
     {
-	Routine routine = new Routine();
+	Routine routine = new Routine("testPauseRunning");
 	routine.setDaemon(true);
 	routine.start();
 
@@ -52,7 +52,7 @@ public class RoutineTest
     @Test
     public void testStartRunning() throws InterruptedException 
     {
-	Routine routine = new Routine();
+	Routine routine = new Routine("testStartRunning");
 	routine.setDaemon(true);
 	routine.start();
 
@@ -61,13 +61,14 @@ public class RoutineTest
 	routine.startRunning();
 	Boolean result = routine.getRunning();
 	assertEquals(true, result);
+	routine.stopRunning();
     }
 
     //Tests if routine stops after stopping while it is in wait(). 
     @Test
     public void testStopRunning_fromWaitingStatus() throws InterruptedException 
     {
-	Routine routine = new Routine();
+	Routine routine = new Routine("testStopRunning_fromWaitingStatus");
 	routine.setDaemon(true);
 	routine.start();
 
@@ -84,7 +85,7 @@ public class RoutineTest
     @Test
     public void testStopRunning_fromTimedWaitingStatus() throws InterruptedException 
     {
-	Routine routine = new Routine();
+	Routine routine = new Routine("testStopRunning_fromTimedWaitingStatus");
 	routine.setDaemon(true);
 	routine.start();
 

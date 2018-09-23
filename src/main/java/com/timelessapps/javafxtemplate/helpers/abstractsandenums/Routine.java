@@ -4,6 +4,16 @@ public class Routine extends Thread
     protected volatile boolean running = true; 
     protected volatile boolean paused = false; 
     
+    String testName;
+    
+    public Routine() {
+    	
+    }
+    
+    public Routine(String testName) {
+    	this.testName = testName;
+    }
+    
     //
     public void run()
     {
@@ -13,7 +23,7 @@ public class Routine extends Thread
 	    try 
 	    {
 		waitIfPaused();
-		System.out.println("Running blank routine. ");
+		System.out.println("Running blank routine. " + testName);
 		Thread.sleep(100);
 		waitIfPaused();
 	    } catch (InterruptedException e) {e.printStackTrace();}
