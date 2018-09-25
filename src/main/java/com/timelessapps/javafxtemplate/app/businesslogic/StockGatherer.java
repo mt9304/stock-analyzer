@@ -6,7 +6,7 @@ import main.java.com.timelessapps.javafxtemplate.helpers.abstractsandenums.Perio
 import main.java.com.timelessapps.javafxtemplate.helpers.database.StockDAO;
 import main.java.com.timelessapps.javafxtemplate.helpers.scraper.NDWrapper;
 
-public class StockGatherer extends Thread {
+public class StockGatherer {
 	
 	String ticker;
 	StockDAO db;
@@ -16,7 +16,7 @@ public class StockGatherer extends Thread {
 		this.db = db;
 	}
 	
-	public void Run() throws NumberFormatException, IOException, InterruptedException {
+	public void gather() throws NumberFormatException, IOException, InterruptedException {
 		NDWrapper stockCalc = new NDWrapper(ticker);
 		
 		Double price = Double.parseDouble(stockCalc.getCurrentPrice());
