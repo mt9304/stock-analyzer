@@ -35,7 +35,7 @@ public class ND2EPS extends ND1Revenue {
 	public String getEPSPeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
 		Element epsNode;
 		try {
-			epsNode = document.getElementsByClass("crDataTable").get(1).select("tbody > tr.mainRow").get(15).select("td.valueCell").get(index);
+			epsNode = document.getElementsByClass("crDataTable").get(1).select("tbody > tr.mainRow:contains(EPS (Basic))").get(0).select("td.valueCell").get(index);
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println(tickerSymbol + ": Could not getEPSPeriodValue(document, " + index + "), node not found. ");
 			return null;

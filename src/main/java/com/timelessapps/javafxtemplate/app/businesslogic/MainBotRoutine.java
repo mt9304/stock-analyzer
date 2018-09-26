@@ -26,8 +26,8 @@ public class MainBotRoutine extends Routine
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("0: " + tickerList[1] + "1");
-		System.out.println("0: " + tickerList[125] + "1");
+		//System.out.println("0: " + tickerList[1] + "1");
+		//System.out.println("0: " + tickerList[125] + "1");
     	
 	    synchronized (this)
 	    {

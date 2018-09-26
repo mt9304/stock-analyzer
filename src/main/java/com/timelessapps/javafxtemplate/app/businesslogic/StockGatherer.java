@@ -38,12 +38,12 @@ public class StockGatherer {
 		String industry = stockCalc.getIndustry();
 		String sector = stockCalc.getSector();
 		
-		Boolean hasIncreasingQuarterlyRevenue = stockCalc.hasIncreasingRevenue(Period.YEAR);
-		Double quarterlyRevenueIncreasePrecent = stockCalc.revenuePercentIncrease(Period.YEAR);
-		Boolean hasIncreasingQuarterlyEPS = stockCalc.hasIncreasingEPS(Period.YEAR);
-		Double quarterlyEPSIncreasePrecent = stockCalc.epsPercentIncrease(Period.YEAR);
-		Boolean hasIncreasingQuarterlyROE = stockCalc.hasIncreasingROE(Period.YEAR);
-		Double quarterlyROEIncreasePrecent = stockCalc.roePercentIncrease(Period.YEAR);
+		Boolean hasIncreasingQuarterlyRevenue = stockCalc.hasIncreasingRevenue(Period.QUARTER);
+		Double quarterlyRevenueIncreasePrecent = stockCalc.revenuePercentIncrease(Period.QUARTER);
+		Boolean hasIncreasingQuarterlyEPS = stockCalc.hasIncreasingEPS(Period.QUARTER);
+		Double quarterlyEPSIncreasePrecent = stockCalc.epsPercentIncrease(Period.QUARTER);
+		Boolean hasIncreasingQuarterlyROE = stockCalc.hasIncreasingROE(Period.QUARTER);
+		Double quarterlyROEIncreasePrecent = stockCalc.roePercentIncrease(Period.QUARTER);
 
 		db.insert(ticker, price, pe, volume, positiveLatestIncome, hasIncreasingAnnualRevenue, annualRevenueIncreasePrecent, hasIncreasingAnnualEPS, annualEPSIncreasePrecent, hasIncreasingAnnualROE, annualROEIncreasePrecent, analystsRecommend, hasMoreInsiderBuys, industry, sector, hasIncreasingQuarterlyRevenue, quarterlyRevenueIncreasePrecent, hasIncreasingQuarterlyEPS, quarterlyEPSIncreasePrecent, hasIncreasingQuarterlyROE, quarterlyROEIncreasePrecent);
 		

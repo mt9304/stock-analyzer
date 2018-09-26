@@ -56,12 +56,13 @@ public class ND3ROE extends ND2EPS {
 	public String getShareHolderEquityPeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
 		Element yearNode;
 		try { 
-			yearNode = document.getElementsByClass("crDataTable").get(2).select("th[scope]").get(index);
+			yearNode = document.select("table.crDataTable:contains(5-year trend)").get(1).select("th[scope]").get(index);
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println(tickerSymbol + ": Could not getShareHolderEquityPeriodHeader(document, " + index + "), node not found. ");
 			return null;
 		}
 		String shareHolderEquityYear = yearNode.text();
+		System.out.println("SHET: " + shareHolderEquityYear);
 		return shareHolderEquityYear;
 	}
 	
@@ -69,12 +70,13 @@ public class ND3ROE extends ND2EPS {
 	public String getShareHolderEquityPeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
 		Element shareHolderEquityNode;
 		try {
-			shareHolderEquityNode = document.getElementsByClass("crDataTable").get(2).select("tbody > tr.partialSum").get(1).select("td.valueCell").get(index);
+			shareHolderEquityNode = document.select("tbody > tr.partialSum:contains(Total Shareholders)").get(0).select("td.valueCell").get(index);
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println(tickerSymbol + ": Could not getShareHolderEquityPeriodValue(document, " + index + "), node not found. ");
 			return null;
 		}
 		String shareHolderEquityValue = shareHolderEquityNode.text().replaceAll("[)]", "").replaceAll("[(]", "-"); //Sometimes values will have brackets like "(0.08)". 
+		System.out.println("SHETV: " + shareHolderEquityValue);
 		return shareHolderEquityValue;
 	}
 	/** Total Shareholder's Equity End. **/
