@@ -17,6 +17,8 @@ public class StockGatherer {
 	}
 	
 	public void gather() throws NumberFormatException, IOException, InterruptedException {
+		
+		System.out.println("Gathering information for " + ticker);
 		NDWrapper stockCalc = new NDWrapper(ticker);
 		
 		Double price = Double.parseDouble(stockCalc.getCurrentPrice());

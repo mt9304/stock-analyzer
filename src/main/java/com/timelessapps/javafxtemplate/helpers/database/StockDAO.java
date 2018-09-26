@@ -110,30 +110,58 @@ public class StockDAO {
             Connection conn = this.connect();  
             PreparedStatement pstmt = conn.prepareStatement(sql);  
             pstmt.setString(1, ticker);  
-            pstmt.setDouble(2, price);  
-            pstmt.setDouble(3, pe);  
+            setDataOrNull(pstmt, 2, price);  
+            setDataOrNull(pstmt, 3, pe);  
             pstmt.setString(4, volume);  
-            pstmt.setBoolean(5, positiveLatestIncome);  
-            pstmt.setBoolean(6, hasIncreasingAnnualRevenue);  
-            pstmt.setDouble(7, annualRevenueIncreasePrecent);  
-            pstmt.setBoolean(8, hasIncreasingAnnualEPS);  
-            pstmt.setDouble(9, annualEPSIncreasePrecent);  
-            pstmt.setBoolean(10, hasIncreasingAnnualROE);  
-            pstmt.setDouble(11, annualROEIncreasePrecent);  
-            pstmt.setBoolean(12, analystsRecommend);  
-            pstmt.setBoolean(13, hasMoreInsiderBuys);  
+            setDataOrNull(pstmt, 5, positiveLatestIncome);  
+            setDataOrNull(pstmt, 6, hasIncreasingAnnualRevenue);  
+            setDataOrNull(pstmt, 7, annualRevenueIncreasePrecent);  
+            setDataOrNull(pstmt, 8, hasIncreasingAnnualEPS);  
+            setDataOrNull(pstmt, 9, annualEPSIncreasePrecent);  
+            setDataOrNull(pstmt, 10, hasIncreasingAnnualROE);  
+            setDataOrNull(pstmt, 11, annualROEIncreasePrecent);  
+            setDataOrNull(pstmt, 12, analystsRecommend);  
+            setDataOrNull(pstmt, 13, hasMoreInsiderBuys);  
             pstmt.setString(14, industry);  
             pstmt.setString(15, sector);  
-            pstmt.setBoolean(16, hasIncreasingQuarterlyRevenue);  
-            pstmt.setDouble(17, quarterlyRevenueIncreasePrecent);  
-            pstmt.setBoolean(18, hasIncreasingQuarterlyEPS);  
-            pstmt.setDouble(19, quarterlyEPSIncreasePrecent);  
-            pstmt.setBoolean(20, hasIncreasingQuarterlyROE);  
-            pstmt.setDouble(21, quarterlyROEIncreasePrecent);  
+            setDataOrNull(pstmt, 16, hasIncreasingQuarterlyRevenue);  
+            setDataOrNull(pstmt, 17, quarterlyRevenueIncreasePrecent);  
+            setDataOrNull(pstmt, 18, hasIncreasingQuarterlyEPS);  
+            setDataOrNull(pstmt, 19, quarterlyEPSIncreasePrecent);  
+            setDataOrNull(pstmt, 20, hasIncreasingQuarterlyROE);  
+            setDataOrNull(pstmt, 21, quarterlyROEIncreasePrecent);  
             pstmt.executeUpdate();  
         } catch (SQLException e) {  
             System.out.println(e.getMessage());  
         }  
     }  
+    
+    /** For setting values to null if the returned value doesnt exist, since nulls with run into errors without this.  */
+    public void setDataOrNull(PreparedStatement pstmt, int column, Integer value) throws SQLException
+    {
+        if (value != null) {
+            pstmt.setInt(column, value);
+        } else {
+            pstmt.setNull(column, java.sql.Types.INTEGER);
+        }
+    }
+      
+    public void setDataOrNull(PreparedStatement pstmt, int column, Boolean value) throws SQLException
+    {
+        if (value != null) {
+            pstmt.setBoolean(column, value);
+        } else {
+            pstmt.setNull(column, java.sql.Types.BOOLEAN);
+        }
+    }
+    
+    public void setDataOrNull(PreparedStatement pstmt, int column, Double value) throws SQLException
+    {
+        if (value != null) {
+            pstmt.setDouble(column, value);
+        } else {
+            pstmt.setNull(column, java.sql.Types.DOUBLE);
+        }
+    }
 
 }
