@@ -78,11 +78,27 @@ public class ND1Revenue extends NDCore
 				parsedQuarterValueBuilder.append(year+"-Q");
 				
 				switch (month) {
+					case "Jan": parsedQuarterValueBuilder.append("1");
+								break;
+					case "Feb": parsedQuarterValueBuilder.append("1");
+								break;
 					case "Mar": parsedQuarterValueBuilder.append("1");
+								break;
+					case "Apr": parsedQuarterValueBuilder.append("2");
+								break;
+					case "May": parsedQuarterValueBuilder.append("2");
 								break;
 					case "Jun": parsedQuarterValueBuilder.append("2");
 								break;
+					case "Jul": parsedQuarterValueBuilder.append("3");
+								break;
+					case "Aug": parsedQuarterValueBuilder.append("3");
+								break;
 					case "Sep": parsedQuarterValueBuilder.append("3");
+								break;
+					case "Oct": parsedQuarterValueBuilder.append("4");
+								break;
+					case "Nov": parsedQuarterValueBuilder.append("4");
 								break;
 					case "Dec": parsedQuarterValueBuilder.append("4");
 								break;

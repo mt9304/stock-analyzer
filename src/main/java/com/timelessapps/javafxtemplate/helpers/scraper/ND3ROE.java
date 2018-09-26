@@ -54,15 +54,30 @@ public class ND3ROE extends ND2EPS {
 	/** Total Shareholder's Equity Start. **/
 	//The period can be Years or Quarters. Years would be in the format "2013", Quarters would be in the format "30-Sep-2016"
 	public String getShareHolderEquityPeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
-		Element yearNode;
+		Element yearNode = null;
+		Boolean isYear = true;
+		Boolean isQuarter = true;
 		try { 
 			yearNode = document.select("table.crDataTable:contains(5-year trend)").get(1).select("th[scope]").get(index);
 		} catch (IndexOutOfBoundsException e) {
-			System.out.println(tickerSymbol + ": Could not getShareHolderEquityPeriodHeader(document, " + index + "), node not found. ");
-			return null;
+			System.out.println(tickerSymbol + ": Could not getShareHolderEquityPeriodHeader(annualDocument, " + index + "), node not found. Trying for Quarter Document. ");
+			isYear = false;
+		}
+		
+		if (!isYear) {
+			try { 
+				System.out.println(tickerSymbol + ": Finding Quarter Document. ");
+				yearNode = document.select("table.crDataTable:contains(5-qtr trend)").get(1).select("th[scope]").get(index);
+			} catch (IndexOutOfBoundsException e) {
+				isQuarter = false;
+				System.out.println(tickerSymbol + ": Could not getShareHolderEquityPeriodHeader(quarterDocument, " + index + "), node not found. ");
+				return null;
+			}
+		}
+		if (isQuarter) {
+			System.out.println(tickerSymbol + ": Found Quarter Document. ");
 		}
 		String shareHolderEquityYear = yearNode.text();
-		System.out.println("SHET: " + shareHolderEquityYear);
 		return shareHolderEquityYear;
 	}
 	
@@ -76,7 +91,6 @@ public class ND3ROE extends ND2EPS {
 			return null;
 		}
 		String shareHolderEquityValue = shareHolderEquityNode.text().replaceAll("[)]", "").replaceAll("[(]", "-"); //Sometimes values will have brackets like "(0.08)". 
-		System.out.println("SHETV: " + shareHolderEquityValue);
 		return shareHolderEquityValue;
 	}
 	/** Total Shareholder's Equity End. **/
@@ -142,14 +156,30 @@ public class ND3ROE extends ND2EPS {
 				parsedQuarterValueBuilder.append(year+"-Q");
 				
 				switch (month) {
-					case "Mar": parsedQuarterValueBuilder.append("1");
-								break;
-					case "Jun": parsedQuarterValueBuilder.append("2");
-								break;
-					case "Sep": parsedQuarterValueBuilder.append("3");
-								break;
-					case "Dec": parsedQuarterValueBuilder.append("4");
-								break;
+				case "Jan": parsedQuarterValueBuilder.append("1");
+							break;
+				case "Feb": parsedQuarterValueBuilder.append("1");
+							break;
+				case "Mar": parsedQuarterValueBuilder.append("1");
+							break;
+				case "Apr": parsedQuarterValueBuilder.append("2");
+							break;
+				case "May": parsedQuarterValueBuilder.append("2");
+							break;
+				case "Jun": parsedQuarterValueBuilder.append("2");
+							break;
+				case "Jul": parsedQuarterValueBuilder.append("3");
+							break;
+				case "Aug": parsedQuarterValueBuilder.append("3");
+							break;
+				case "Sep": parsedQuarterValueBuilder.append("3");
+							break;
+				case "Oct": parsedQuarterValueBuilder.append("4");
+							break;
+				case "Nov": parsedQuarterValueBuilder.append("4");
+							break;
+				case "Dec": parsedQuarterValueBuilder.append("4");
+							break;
 					default: 	parsedQuarterValueBuilder.setLength(0);
 								parsedQuarterValueBuilder.append(netIncomeQuarterValue);
 								System.out.println("["+ tickerSymbol + "]: Cannot convert to Map, unexpected Quarter Month value: " + month);

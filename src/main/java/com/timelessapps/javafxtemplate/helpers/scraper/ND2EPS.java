@@ -73,18 +73,34 @@ public class ND2EPS extends ND1Revenue {
 				parsedQuarterValueBuilder.append(year+"-Q");
 				
 				switch (month) {
-					case "Mar": parsedQuarterValueBuilder.append("1");
-								break;
-					case "Jun": parsedQuarterValueBuilder.append("2");
-								break;
-					case "Sep": parsedQuarterValueBuilder.append("3");
-								break;
-					case "Dec": parsedQuarterValueBuilder.append("4");
-								break;
-					default: 	parsedQuarterValueBuilder.setLength(0);
-								parsedQuarterValueBuilder.append(quarterValue);
-								//Log unexpected month. 
-								break;
+				case "Jan": parsedQuarterValueBuilder.append("1");
+							break;
+				case "Feb": parsedQuarterValueBuilder.append("1");
+							break;
+				case "Mar": parsedQuarterValueBuilder.append("1");
+							break;
+				case "Apr": parsedQuarterValueBuilder.append("2");
+							break;
+				case "May": parsedQuarterValueBuilder.append("2");
+							break;
+				case "Jun": parsedQuarterValueBuilder.append("2");
+							break;
+				case "Jul": parsedQuarterValueBuilder.append("3");
+							break;
+				case "Aug": parsedQuarterValueBuilder.append("3");
+							break;
+				case "Sep": parsedQuarterValueBuilder.append("3");
+							break;
+				case "Oct": parsedQuarterValueBuilder.append("4");
+							break;
+				case "Nov": parsedQuarterValueBuilder.append("4");
+							break;
+				case "Dec": parsedQuarterValueBuilder.append("4");
+							break;
+				default: 	parsedQuarterValueBuilder.setLength(0);
+							parsedQuarterValueBuilder.append(quarterValue);
+							System.out.println("["+ tickerSymbol + "]: Cannot convert to Map, unexpected Quarter Month value: " + month);
+							break;
 				}
 				String parsedQuarterValue = parsedQuarterValueBuilder.toString();
 				epsByQuarters.put(parsedQuarterValue, epsValue);
