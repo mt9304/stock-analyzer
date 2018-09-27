@@ -56,12 +56,13 @@ public class ND3ROE extends ND2EPS {
 	public String getShareHolderEquityPeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
 		Element yearNode = null;
 		Boolean isYear = true;
-		Boolean isQuarter = true;
+		Boolean isQuarter = false;
 		try { 
 			yearNode = document.select("table.crDataTable:contains(5-year trend)").get(1).select("th[scope]").get(index);
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println(tickerSymbol + ": Could not getShareHolderEquityPeriodHeader(annualDocument, " + index + "), node not found. Trying for Quarter Document. ");
 			isYear = false;
+			isQuarter = true;
 		}
 		
 		if (!isYear) {
