@@ -74,6 +74,11 @@ public class ND1Revenue extends NDCore
 		for (int i = 0; i < 5; i++) {
 			String yearValue = getRevenuePeriodHeader(incomeDocument, i);
 			String revenueValue = getRevenuePeriodValue(incomeDocument, i);
+			if (yearValue == null || revenueValue == null) {
+				//Company does not have revenue available. 
+				revenueByYears.put("null", "null");
+				return revenueByYears;
+			}
 			if (!yearValue.isEmpty() && !revenueValue.isEmpty()) {
 				revenueByYears.put(yearValue, revenueValue);
 			}

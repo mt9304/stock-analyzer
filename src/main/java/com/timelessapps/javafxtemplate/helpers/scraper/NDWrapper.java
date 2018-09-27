@@ -116,6 +116,11 @@ public class NDWrapper {
 						Long latestPeriodRevenue = webScraper.getParsedAlphaNumericMoney(unParsedLatestPeriodRevenue);
 						Long secondLatestPeriodRevenue = webScraper.getParsedAlphaNumericMoney(unParsedSecondLatestPeriodRevenue);
 						
+						//Sometime companies have incomplete paperwork. 
+						if (latestPeriodRevenue == null | secondLatestPeriodRevenue == null) {
+							return null;
+						}
+						
 						if (latestPeriodRevenue > secondLatestPeriodRevenue) {
 							return true;
 						} else if (latestPeriodRevenue < secondLatestPeriodRevenue) {

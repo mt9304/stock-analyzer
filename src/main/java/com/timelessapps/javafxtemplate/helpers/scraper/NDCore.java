@@ -151,6 +151,11 @@ public class NDCore {
 	public Long getParsedAlphaNumericMoney(String money) {
 		int decimalSpaces = 0;
 		
+		//Sometimes this doesn't exist. 
+		if (money == null) {
+			return null;
+		}
+		
 		if (!money.contains("M") && !money.contains("B") && !money.contains(","))
 		{
 			System.out.println("No M or B detected, invalid input for money. " + money + ")");
@@ -213,6 +218,11 @@ public class NDCore {
 	
 	//Divides latest period by second latest period to get the percent increase/decrease. For large values like 1.1B that have been converted to 1100000000. 
 	public Double convertDifferenceToPercent(Long latestPeriodValue, Long secondLatestPeriodValue) {
+		//If incomplete income statement. 
+		if (latestPeriodValue == null | secondLatestPeriodValue == null) {
+			return null;
+		}
+		
 		//Would be something like 1.2467 or 0.8550
 		Double unParsedPercentIncrease = useDecimalPlaces((double)latestPeriodValue/(double)secondLatestPeriodValue, 4);
 		
