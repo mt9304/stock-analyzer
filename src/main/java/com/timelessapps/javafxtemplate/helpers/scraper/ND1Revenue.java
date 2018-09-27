@@ -31,23 +31,23 @@ public class ND1Revenue extends NDCore
 		try { 
 			yearNode = document.select("table.crDataTable:contains(5-year trend)").get(0).select("th[scope]").get(index);
 		} catch (IndexOutOfBoundsException e) {
-			System.out.println(tickerSymbol + ": Could not getRevenuePeriodHeader(document, " + index + "), node not found. Trying for Quarter Document. ");
+			//System.out.println(tickerSymbol + ": Could not getRevenuePeriodHeader(document, " + index + "), node not found. Trying for Quarter Document. ");
 			isYear = false;
 			isQuarter = true;
 		}
 		
 		if (!isYear) {
 			try { 
-				System.out.println(tickerSymbol + ": Finding Quarter Document. ");
+				//System.out.println(tickerSymbol + ": Finding Quarter Document. ");
 				yearNode = document.select("table.crDataTable:contains(5-qtr trend)").get(0).select("th[scope]").get(index);
 			} catch (IndexOutOfBoundsException e) {
 				isQuarter = false;
-				System.out.println(tickerSymbol + ": Could not getRevenuePeriodHeader(document, " + index + "), node not found. ");
+				System.out.println(tickerSymbol + ": Could not getRevenuePeriodHeader(document, " + index + "), both year and quarter nodes not found. ");
 				return null;
 			}
 		}
 		if (isQuarter) {
-			System.out.println(tickerSymbol + ": Found Quarter Document. ");
+			//System.out.println(tickerSymbol + ": Found Quarter Document. ");
 		}
 		String revenueYear = yearNode.text();
 		return revenueYear;

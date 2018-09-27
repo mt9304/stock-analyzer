@@ -20,12 +20,29 @@ public class ND2EPS extends ND1Revenue {
 	
 	//The period can be Years or Quarters. Years would be in the format "2013", Quarters would be in the format "30-Sep-2016"
 	public String getEPSPeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
-		Element yearNode;
-		try {
-			yearNode = document.getElementsByClass("crDataTable").get(1).select("th[scope]").get(index);
+		Element yearNode = null;
+		Boolean isYear = true;
+		Boolean isQuarter = false;
+		try { 
+			yearNode = document.select("table.crDataTable:contains(5-year trend)").get(1).select("th[scope]").get(index);
 		} catch (IndexOutOfBoundsException e) {
-			System.out.println(tickerSymbol + ": Could not getEPSPeriodHeader(document, " + index + "), node not found. ");
-			return null;
+			//System.out.println(tickerSymbol + ": Could not getEPSPeriodHeader(document, " + index + "), node not found. Trying for Quarter Document. ");
+			isYear = false;
+			isQuarter = true;
+		}
+		
+		if (!isYear) {
+			try { 
+				//System.out.println(tickerSymbol + ": Finding Quarter Document. ");
+				yearNode = document.select("table.crDataTable:contains(5-qtr trend)").get(1).select("th[scope]").get(index);
+			} catch (IndexOutOfBoundsException e) {
+				isQuarter = false;
+				System.out.println(tickerSymbol + ": Could not getEPSPeriodHeader(document, " + index + "), both year and quarter nodes not found. ");
+				return null;
+			}
+		}
+		if (isQuarter) {
+			//System.out.println(tickerSymbol + ": Found Quarter Document. ");
 		}
 		String epsYear = yearNode.text();
 		return epsYear;
