@@ -86,7 +86,7 @@ public class NDCore {
 			System.out.println(tickerSymbol + ": Could not getCurrentPrice(), node not found. ");
 			return null;
 		}
-		String elementValue = stockPriceElement.text();
+		String elementValue = stockPriceElement.text().replaceAll(",", "");
 		return elementValue;
 	}
 	
