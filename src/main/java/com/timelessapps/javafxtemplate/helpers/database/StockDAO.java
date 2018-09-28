@@ -23,7 +23,7 @@ public class StockDAO {
 	
 	public StockDAO(String fileName) {
 		this.fileName = fileName;
-		url = "jdbc:sqlite:C:/dbs/" + fileName + ".db";
+		url = "jdbc:sqlite:C:/stockdb/db/" + fileName + ".db";
 	}
 	
     private Connection connect() {  

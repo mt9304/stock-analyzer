@@ -141,8 +141,8 @@ public class ND3ROE extends ND2EPS {
 				//Convert to only use decimal of last digit. 
 				if (rawROEValue.contains(".")) {
 					int decimalIndex = rawROEValue.indexOf(".");
-					//Sometimes result is 2.0
-					if (rawROEValue.length() < 4) {
+					//Sometimes result is 2.0. or 34325354.3 check if 2nd to last character is .
+					if (rawROEValue.split("")[rawROEValue.split("").length-2].equals(".")) {
 						rawROEValue = rawROEValue + "00";
 					}
 					roeValue = rawROEValue.substring(0,decimalIndex+3);

@@ -18,15 +18,16 @@ public class LoggingService
 
     public void writeLineToFile(String fileName, String text) throws FileNotFoundException
     {
-        File file = new File(fileName);
+    	String filePath = "C:/stockdb/logs/";
+        File file = new File(filePath + fileName);
         PrintWriter printWriter;
         if ( file.exists() && !file.isDirectory() )
         {
-            printWriter = new PrintWriter(new FileOutputStream(new File(fileName), true));
+            printWriter = new PrintWriter(new FileOutputStream(new File(filePath + fileName), true));
         }
         else 
         {
-            printWriter = new PrintWriter(fileName);
+            printWriter = new PrintWriter(filePath + fileName);
         }
         printWriter.println(text);
         printWriter.close();

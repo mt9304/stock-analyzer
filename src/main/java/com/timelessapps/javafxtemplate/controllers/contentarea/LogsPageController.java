@@ -71,8 +71,8 @@ public class LogsPageController implements Initializable
                 {
                     try 
                     { 
-                        applicationLogsTabContentArea.setText(fileHelper.getTextFromFile(currentDate + "_" + "ApplicationLog.txt"));
-                        eventLogsTabContentArea.setText(fileHelper.getTextFromFile(currentDate + "_" + "EventLog.txt"));
+                        applicationLogsTabContentArea.setText(fileHelper.getTextFromFile("C:/stockdb/logs/" + currentDate + "_" + "ApplicationLog.txt"));
+                        eventLogsTabContentArea.setText(fileHelper.getTextFromFile("C:/stockdb/logs/" + currentDate + "_" + "EventLog.txt"));
                     }   catch (IOException ex) {Logger.getLogger(CustomSceneHelper.class.getName()).log(Level.SEVERE, null, ex);}
                     
                     //For auto scrolling to bottom to see most recent events. 
