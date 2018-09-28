@@ -22,7 +22,15 @@ public class StockGatherer {
 		NDWrapper stockCalc = new NDWrapper(ticker);
 		
 		Double price = Double.parseDouble(stockCalc.getCurrentPrice());
-		Double pe = Double.parseDouble(stockCalc.getPERatio());
+		
+		//Should consider making the function return a Double instead of string. Will need to change database structure as well. 
+		Double pe;
+		if (stockCalc.getPERatio().equals(null) || stockCalc.getPERatio().equals("")) {
+			pe = null;
+		} else {
+			pe = Double.parseDouble(stockCalc.getPERatio());
+		}
+		
 		String volume = stockCalc.getVolume();
 		Boolean positiveLatestIncome = stockCalc.hasPositiveLatestIncome();
 		
