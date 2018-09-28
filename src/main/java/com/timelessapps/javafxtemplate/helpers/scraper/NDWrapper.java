@@ -79,8 +79,13 @@ public class NDWrapper {
 						String unParsedLatestPeriodRevenue = revenueByPeriod.get(allPeriods.get(allPeriods.size() - 1));
 						String unParsedSecondLatestPeriodRevenue = revenueByPeriod.get(allPeriods.get(allPeriods.size() - 2));
 						
-						//Sometimes certain years/quarters will have no information and just return - or blank. 
-						if (unParsedLatestPeriodRevenue.equals("-") || unParsedLatestPeriodRevenue.equals("") || unParsedSecondLatestPeriodRevenue.equals("-") || unParsedSecondLatestPeriodRevenue.equals("")) {
+						try {
+							//Sometimes certain years/quarters will have no information and just return - or blank. 
+							if (unParsedLatestPeriodRevenue.equals("-") || unParsedLatestPeriodRevenue.equals("") || unParsedSecondLatestPeriodRevenue.equals("-") || unParsedSecondLatestPeriodRevenue.equals("")) {
+								return null;
+							}
+						} catch (NullPointerException e) {
+							System.out.println(tickerSymbol + ": Missing revenue information for " + period + ". " + e);
 							return null;
 						}
 						
@@ -120,8 +125,13 @@ public class NDWrapper {
 						String unParsedLatestPeriodRevenue = revenueByPeriod.get(allPeriods.get(allPeriods.size() - 1));
 						String unParsedSecondLatestPeriodRevenue = revenueByPeriod.get(allPeriods.get(allPeriods.size() - 2));
 						
-						//Sometimes certain years/quarters will have no information and just return - or blank. 
-						if (unParsedLatestPeriodRevenue.equals("-") || unParsedLatestPeriodRevenue.equals("") || unParsedSecondLatestPeriodRevenue.equals("-") || unParsedSecondLatestPeriodRevenue.equals("")) {
+						try {
+							//Sometimes certain years/quarters will have no information and just return - or blank. 
+							if (unParsedLatestPeriodRevenue.equals("-") || unParsedLatestPeriodRevenue.equals("") || unParsedSecondLatestPeriodRevenue.equals("-") || unParsedSecondLatestPeriodRevenue.equals("")) {
+								return null;
+							}
+						} catch (NullPointerException e) {
+							System.out.println(tickerSymbol + ": Missing revenue information for " + period + ". " + e);
 							return null;
 						}
 						
@@ -178,8 +188,13 @@ public class NDWrapper {
 						String unParsedLatestPeriodEPS = epsByPeriod.get(allPeriods.get(allPeriods.size() - 1));
 						String unParsedSecondLatestPeriodEPS = epsByPeriod.get(allPeriods.get(allPeriods.size() - 2));
 						
-						//Sometimes certain years/quarters will have no information and just return - or blank. 
-						if (unParsedLatestPeriodEPS.equals("-") || unParsedLatestPeriodEPS.equals("") || unParsedSecondLatestPeriodEPS.equals("-") || unParsedSecondLatestPeriodEPS.equals("")) {
+						try {
+							//Sometimes certain years/quarters will have no information and just return - or blank. 
+							if (unParsedLatestPeriodEPS.equals("-") || unParsedLatestPeriodEPS.equals("") || unParsedSecondLatestPeriodEPS.equals("-") || unParsedSecondLatestPeriodEPS.equals("")) {
+								return null;
+							}
+						} catch (NullPointerException e) {
+							System.out.println(tickerSymbol + ": Missing revenue information for " + period + ". " + e);
 							return null;
 						}
 						
@@ -220,8 +235,13 @@ public class NDWrapper {
 						String unParsedLatestPeriodEPS = epsByPeriod.get(allPeriods.get(allPeriods.size() - 1));
 						String unParsedSecondLatestPeriodEPS = epsByPeriod.get(allPeriods.get(allPeriods.size() - 2));
 						
-						//Sometimes certain years/quarters will have no information and just return - or blank. 
-						if (unParsedLatestPeriodEPS.equals("-") || unParsedLatestPeriodEPS.equals("") || unParsedSecondLatestPeriodEPS.equals("-") || unParsedSecondLatestPeriodEPS.equals("")) {
+						try {
+							//Sometimes certain years/quarters will have no information and just return - or blank. 
+							if (unParsedLatestPeriodEPS.equals("-") || unParsedLatestPeriodEPS.equals("") || unParsedSecondLatestPeriodEPS.equals("-") || unParsedSecondLatestPeriodEPS.equals("")) {
+								return null;
+							}
+						} catch (NullPointerException e) {
+							System.out.println(tickerSymbol + ": Missing revenue information for " + period + ". " + e);
 							return null;
 						}
 						
@@ -273,8 +293,13 @@ public class NDWrapper {
 						String unParsedLatestPeriodROE = roeByPeriod.get(allPeriods.get(allPeriods.size() - 1));
 						String unParsedSecondLatestPeriodROE = roeByPeriod.get(allPeriods.get(allPeriods.size() - 2));
 						
-						//Sometimes certain years/quarters will have no information and just return - or blank. 
-						if (unParsedLatestPeriodROE.equals("-") || unParsedLatestPeriodROE.equals("") || unParsedSecondLatestPeriodROE.equals("-") || unParsedSecondLatestPeriodROE.equals("")) {
+						try {
+							//Sometimes certain years/quarters will have no information and just return - or blank. 
+							if (unParsedLatestPeriodROE.equals("-") || unParsedLatestPeriodROE.equals("") || unParsedSecondLatestPeriodROE.equals("-") || unParsedSecondLatestPeriodROE.equals("")) {
+								return null;
+							}
+						} catch (NullPointerException e) {
+							System.out.println(tickerSymbol + ": Missing revenue information for " + period + ". " + e);
 							return null;
 						}
 						
