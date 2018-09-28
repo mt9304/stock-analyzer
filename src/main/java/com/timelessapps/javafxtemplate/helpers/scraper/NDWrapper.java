@@ -78,6 +78,12 @@ public class NDWrapper {
 						
 						String unParsedLatestPeriodRevenue = revenueByPeriod.get(allPeriods.get(allPeriods.size() - 1));
 						String unParsedSecondLatestPeriodRevenue = revenueByPeriod.get(allPeriods.get(allPeriods.size() - 2));
+						
+						//Sometimes certain years/quarters will have no information and just return - or blank. 
+						if (unParsedLatestPeriodRevenue.equals("-") || unParsedLatestPeriodRevenue.equals("") || unParsedSecondLatestPeriodRevenue.equals("-") || unParsedSecondLatestPeriodRevenue.equals("")) {
+							return null;
+						}
+						
 						//Need to parse the alphanumeric values like 999M and 1.01B
 						Long latestPeriodRevenue = webScraper.getParsedAlphaNumericMoney(unParsedLatestPeriodRevenue);	
 						Long secondLatestPeriodRevenue = webScraper.getParsedAlphaNumericMoney(unParsedSecondLatestPeriodRevenue);
@@ -113,6 +119,12 @@ public class NDWrapper {
 						
 						String unParsedLatestPeriodRevenue = revenueByPeriod.get(allPeriods.get(allPeriods.size() - 1));
 						String unParsedSecondLatestPeriodRevenue = revenueByPeriod.get(allPeriods.get(allPeriods.size() - 2));
+						
+						//Sometimes certain years/quarters will have no information and just return - or blank. 
+						if (unParsedLatestPeriodRevenue.equals("-") || unParsedLatestPeriodRevenue.equals("") || unParsedSecondLatestPeriodRevenue.equals("-") || unParsedSecondLatestPeriodRevenue.equals("")) {
+							return null;
+						}
+						
 						Long latestPeriodRevenue = webScraper.getParsedAlphaNumericMoney(unParsedLatestPeriodRevenue);
 						Long secondLatestPeriodRevenue = webScraper.getParsedAlphaNumericMoney(unParsedSecondLatestPeriodRevenue);
 						
@@ -165,6 +177,12 @@ public class NDWrapper {
 						
 						String unParsedLatestPeriodEPS = epsByPeriod.get(allPeriods.get(allPeriods.size() - 1));
 						String unParsedSecondLatestPeriodEPS = epsByPeriod.get(allPeriods.get(allPeriods.size() - 2));
+						
+						//Sometimes certain years/quarters will have no information and just return - or blank. 
+						if (unParsedLatestPeriodEPS.equals("-") || unParsedLatestPeriodEPS.equals("") || unParsedSecondLatestPeriodEPS.equals("-") || unParsedSecondLatestPeriodEPS.equals("")) {
+							return null;
+						}
+						
 						//Need to parse the alphanumeric values like 999M and 1.01B
 						Double latestPeriodEPS = Double.parseDouble(unParsedLatestPeriodEPS);	
 						Double secondLatestPeriodEPS = Double.parseDouble(unParsedSecondLatestPeriodEPS);
@@ -201,6 +219,11 @@ public class NDWrapper {
 						
 						String unParsedLatestPeriodEPS = epsByPeriod.get(allPeriods.get(allPeriods.size() - 1));
 						String unParsedSecondLatestPeriodEPS = epsByPeriod.get(allPeriods.get(allPeriods.size() - 2));
+						
+						//Sometimes certain years/quarters will have no information and just return - or blank. 
+						if (unParsedLatestPeriodEPS.equals("-") || unParsedLatestPeriodEPS.equals("") || unParsedSecondLatestPeriodEPS.equals("-") || unParsedSecondLatestPeriodEPS.equals("")) {
+							return null;
+						}
 						
 						Double latestPeriodEPS = Double.parseDouble(unParsedLatestPeriodEPS);
 						Double secondLatestPeriodEPS = Double.parseDouble(unParsedSecondLatestPeriodEPS);
@@ -249,6 +272,12 @@ public class NDWrapper {
 						
 						String unParsedLatestPeriodROE = roeByPeriod.get(allPeriods.get(allPeriods.size() - 1));
 						String unParsedSecondLatestPeriodROE = roeByPeriod.get(allPeriods.get(allPeriods.size() - 2));
+						
+						//Sometimes certain years/quarters will have no information and just return - or blank. 
+						if (unParsedLatestPeriodROE.equals("-") || unParsedLatestPeriodROE.equals("") || unParsedSecondLatestPeriodROE.equals("-") || unParsedSecondLatestPeriodROE.equals("")) {
+							return null;
+						}
+						
 						//Need to parse the alphanumeric values like 999M and 1.01B
 						Double latestPeriodROE = Double.parseDouble(unParsedLatestPeriodROE);	
 						Double secondLatestPeriodROE = Double.parseDouble(unParsedSecondLatestPeriodROE);
