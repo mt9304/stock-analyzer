@@ -244,7 +244,6 @@ public class ND3ROE extends ND2EPS {
 						if (rawROEValue.split("")[rawROEValue.split("").length-2].equals(".")) {
 							rawROEValue = rawROEValue + "00";
 						}
-						System.out.println("INDEX: " + rawROEValue);
 						roeValue = rawROEValue.substring(0,decimalIndex+3);
 					} else {
 						roeValue = rawROEValue.substring(0,5);
