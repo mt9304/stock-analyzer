@@ -2,6 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>javafxtemplate</groupId>
   <artifactId>javafxtemplate</artifactId>
+  <packaging>jar</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>javafxtemplate</name>
   <description>Template for future JavaFX projects. </description>
@@ -24,6 +25,19 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      <plugin>
+    	<artifactId>maven-assembly-plugin</artifactId>
+    	<configuration>
+        	<archive>
+            	<manifest>
+                	<mainClass>main.java.com.timelessapps.javafxtemplate.Main</mainClass>
+            	</manifest>
+        	</archive>
+        	<descriptorRefs>
+            	<descriptorRef>jar-with-dependencies</descriptorRef>
+        	</descriptorRefs>
+    		</configuration>
+		</plugin>
     </plugins>
   </build>
   <dependencies>
