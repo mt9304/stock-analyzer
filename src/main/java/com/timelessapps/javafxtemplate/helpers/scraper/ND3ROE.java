@@ -126,6 +126,15 @@ public class ND3ROE extends ND2EPS {
 			String netIncomeValue = getNetIncomePeriodValue(incomeDocument, i);
 			String shareHolderEquityValue = getShareHolderEquityPeriodValue(balanceSheetDocument, i);
 			
+			try {
+				if (netIncomeValue.equals("-") || netIncomeValue.equals("") || shareHolderEquityValue.equals("-") || shareHolderEquityValue.equals("")) {
+					return null;
+				}
+			} catch (NullPointerException e) {
+				System.out.println(tickerSymbol + ": Missing revenue information for year. " + e);
+				return null;
+			}
+			
 			if (!netIncomeYearValue.equals(shareHolderEquityYearValue)) {
 				System.out.println("["+tickerSymbol+"]: Cannot convert to Map, years for Net Income and Share Holder Equity are different. ");
 				return null;
@@ -166,6 +175,15 @@ public class ND3ROE extends ND2EPS {
 			
 			String netIncomeValue = getNetIncomePeriodValue(incomeQuarterDocument, i);
 			String shareHolderEquityValue = getShareHolderEquityPeriodValue(balanceSheetQuarterDocument, i);
+			
+			try {
+				if (netIncomeValue.equals("-") || netIncomeValue.equals("") || shareHolderEquityValue.equals("-") || shareHolderEquityValue.equals("")) {
+					return null;
+				}
+			} catch (NullPointerException e) {
+				System.out.println(tickerSymbol + ": Missing revenue information for quarter. " + e);
+				return null;
+			}
 			
 			if (!netIncomeQuarterValue.equals(shareHolderEquityQuarterValue)) {
 				System.out.println("["+tickerSymbol+"]: Cannot convert to Map, quarters for Net Income and Share Holder Equity are different. ");

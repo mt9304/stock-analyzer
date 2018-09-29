@@ -67,9 +67,15 @@ public class ND2EPS extends ND1Revenue {
 
 		for (int i = 0; i < 5; i++) {
 			String yearValue = getEPSPeriodHeader(incomeDocument, i);
-			String epsValue = getEPSPeriodValue(incomeDocument, i);
-			if (!yearValue.isEmpty()) {
-				epsByYears.put(yearValue, epsValue);
+			String epsValue = getEPSPeriodValue(incomeDocument, i); // if empty, do "-"????
+			
+			try {			
+				if (!yearValue.isEmpty()) {
+					epsByYears.put(yearValue, epsValue);
+				}
+			} catch (NullPointerException e) {
+				System.out.println(tickerSymbol + ": " + "Could not getEPSByYears, no node available. ");
+				return null;
 			}
 		}
 		return epsByYears;
@@ -81,6 +87,11 @@ public class ND2EPS extends ND1Revenue {
 		for (int i = 0; i < 5; i++) {
 			String quarterValue = getEPSPeriodHeader(incomeQuarterDocument, i);
 			String epsValue = getEPSPeriodValue(incomeQuarterDocument, i);
+			
+			//Should only return null if there is no statement available, would be blank or - if there were empty values, so it is okay to terminate here and return null.  
+			if (quarterValue == null) {
+				return null;
+			}
 			
 			//Converts the quarter end date from "30-Sep-2016" to "2016-Q3"
 			if (!quarterValue.isEmpty()) {

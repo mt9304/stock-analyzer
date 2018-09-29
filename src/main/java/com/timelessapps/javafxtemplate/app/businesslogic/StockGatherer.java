@@ -25,7 +25,7 @@ public class StockGatherer {
 		
 		//Should consider making the function return a Double instead of string. Will need to change database structure as well. 
 		Double pe;
-		if (stockCalc.getPERatio().equals(null) || stockCalc.getPERatio().equals("")) {
+		if (stockCalc.getPERatio() == null || stockCalc.getPERatio().equals("")) {
 			pe = null;
 		} else {
 			pe = Double.parseDouble(stockCalc.getPERatio());

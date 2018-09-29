@@ -93,6 +93,11 @@ public class ND1Revenue extends NDCore
 			String quarterValue = getRevenuePeriodHeader(incomeQuarterDocument, i);
 			String revenueValue = getRevenuePeriodValue(incomeQuarterDocument, i);
 			
+			//Should only return null if there is no statement available, would be blank or - if there were empty values, so it is okay to terminate here and return null.  
+			if (quarterValue == null) {
+				return null;
+			}
+			
 			//Converts the quarter end date from "30-Sep-2016" to "2016-Q3"
 			if (!quarterValue.isEmpty()) {
 				String month = quarterValue.split("-")[1];

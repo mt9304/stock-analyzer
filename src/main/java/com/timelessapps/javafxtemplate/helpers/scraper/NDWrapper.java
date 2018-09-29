@@ -35,6 +35,11 @@ public class NDWrapper {
 				
 				public Boolean hasPositiveLatestIncome() {
 					String latestIncomeValue = webScraper.getLatestIncomeValue();
+					
+					if (latestIncomeValue == null || latestIncomeValue.equals("")) {
+						return null;
+					}
+					
 					if (latestIncomeValue.matches("\\d.*")) {
 						return true;
 					} else if (latestIncomeValue.matches("^[-].*")) {
@@ -65,7 +70,15 @@ public class NDWrapper {
 										break;
 					}
 
-					Set<String> keys = revenueByPeriod.keySet();
+					Set<String> keys;
+
+					try {
+						keys = revenueByPeriod.keySet();
+					} catch (NullPointerException e) {
+						System.out.println(tickerSymbol + ": No revenuePercentIncrease available. ");
+						return null;
+					}
+					
 					ArrayList<String> allPeriods = new ArrayList<>();
 					
 					if (keys.size() < 2) {
@@ -111,7 +124,15 @@ public class NDWrapper {
 										break;
 					}
 
-					Set<String> keys = revenueByPeriod.keySet();
+					Set<String> keys;
+					
+					try {
+						keys = revenueByPeriod.keySet();
+					} catch (NullPointerException e) {
+						System.out.println(tickerSymbol + ": No nodes available for hasIncreasingRevenue. ");
+						return null;
+					}
+					
 					ArrayList<String> allPeriods = new ArrayList<>();
 					
 					if (keys.size() < 2) {
@@ -174,7 +195,15 @@ public class NDWrapper {
 										break;
 					}
 
-					Set<String> keys = epsByPeriod.keySet();
+					Set<String> keys;
+					
+					try {
+						keys = epsByPeriod.keySet();
+					} catch (NullPointerException e) {
+						System.out.println(tickerSymbol + ": " + "No epsPercentIncrease available. ");
+						return null;
+					}
+					
 					ArrayList<String> allPeriods = new ArrayList<>();
 					
 					if (keys.size() < 2) {
@@ -221,7 +250,15 @@ public class NDWrapper {
 										break;
 					}
 
-					Set<String> keys = epsByPeriod.keySet();
+					Set<String> keys;
+					
+					try {
+						keys = epsByPeriod.keySet();
+					} catch (NullPointerException e) {
+						System.out.println(tickerSymbol + ": " + "No epsByPeriod available. ");
+						return null;
+					}
+					
 					ArrayList<String> allPeriods = new ArrayList<>();
 					
 					if (keys.size() < 2) {
@@ -279,7 +316,15 @@ public class NDWrapper {
 										break;
 					}
 
-					Set<String> keys = roeByPeriod.keySet();
+					Set<String> keys;
+					
+					try {
+						keys = roeByPeriod.keySet();
+					} catch (NullPointerException e) {
+						System.out.println(tickerSymbol + ": " + "No roePercentIncrease available. ");
+						return null;
+					}
+					
 					ArrayList<String> allPeriods = new ArrayList<>();
 					
 					if (keys.size() < 2) {
@@ -313,10 +358,15 @@ public class NDWrapper {
 				
 				public Boolean hasIncreasingROE(Period period) throws IOException, InterruptedException {
 					Double percentIncrease = roePercentIncrease(period);
-					if (percentIncrease > 0) {
-						return true;
-					} else if (percentIncrease <= 0) {
-						return false;
+					
+					try {
+						if (percentIncrease > 0) {
+							return true;
+						} else if (percentIncrease <= 0) {
+							return false;
+						}
+					} catch (NullPointerException e) {
+						System.out.println(tickerSymbol + ": Could not find hasIncreasingROE. ");
 					}
 					return null;
 				}
