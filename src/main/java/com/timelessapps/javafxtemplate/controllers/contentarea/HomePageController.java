@@ -43,13 +43,13 @@ public class HomePageController implements Initializable
     @FXML
     public void startApplication(MouseEvent event) throws InterruptedException, AWTException 
     {
-	MainBotRoutine mainBotRoutine = new MainBotRoutine();
-	mainBotRoutine.setDaemon(true);
-	mainBotRoutine.start();
-
-	GlobalKeyListener globalKeyListener = new GlobalKeyListener(mainBotRoutine);
-	globalKeyListener.setDaemon(true);
-	globalKeyListener.start();
+		MainBotRoutine mainBotRoutine = new MainBotRoutine();
+		mainBotRoutine.setDaemon(true);
+		mainBotRoutine.start();
+	
+		GlobalKeyListener globalKeyListener = new GlobalKeyListener(mainBotRoutine);
+		globalKeyListener.setDaemon(true);
+		globalKeyListener.start();
 
 	//botRoutine.join();
 	//System.out.println("Remember to re-active button. ");

@@ -6,10 +6,9 @@ import java.util.logging.Logger;
 
 import main.java.com.timelessapps.javafxtemplate.helpers.abstractsandenums.Routine;
 import main.java.com.timelessapps.javafxtemplate.helpers.database.StockDAO;
-import main.java.com.timelessapps.javafxtemplate.helpers.services.CustomSceneHelper;
 import main.java.com.timelessapps.javafxtemplate.helpers.services.FileHelper;
 
-public class MainBotRoutine extends Routine
+public class ScrapeWithoutGUI extends Routine
 {
     public void run()
     {
@@ -25,14 +24,11 @@ public class MainBotRoutine extends Routine
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//System.out.println("0: " + tickerList[1] + "1");
-		//System.out.println("0: " + tickerList[125] + "1");
     	
 	    synchronized (this)
 	    {
 	        try 
 	        {
-	            disableStartButton();
 	            while(running)
 	            {
 	            	System.out.println("Starting to scrape. ");
@@ -50,7 +46,6 @@ public class MainBotRoutine extends Routine
 	            	running = false;
 	            	System.out.println("Finished list of stocks. ");
 	            }
-	            enableStartButton();
 	        } 
 	        catch (InterruptedException ex) {Logger.getLogger(MainBotRoutine.class.getName()).log(Level.SEVERE, null, ex);} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
@@ -62,28 +57,4 @@ public class MainBotRoutine extends Routine
 	    }
 	    System.out.println("Done. ");
     }
-    
-    @Override
-    public void checkIfPausedOrStopped() throws InterruptedException
-    {
-    	waitIfPaused();
-    	if (!running)
-    	{
-    		enableStartButton();
-    	}
-    }
-
-	private void disableStartButton() 
-	{
-		CustomSceneHelper sceneHelper = new CustomSceneHelper();
-		sceneHelper.getNodeById("startButton").setDisable(true);
-	}
-
-	private void enableStartButton() 
-	{
-		CustomSceneHelper sceneHelper = new CustomSceneHelper();
-		sceneHelper.getNodeById("startButton").setDisable(false);
-	}
-	
 }
-    
