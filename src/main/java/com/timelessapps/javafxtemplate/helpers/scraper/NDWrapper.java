@@ -385,6 +385,11 @@ public class NDWrapper {
 				
 				public Boolean analystRecommendationIsPositive() {
 					String analystRecommendation = getAnalystRecommendation();
+					
+					if (analystRecommendation == null) {
+						return null;
+					}
+					
 					if (analystRecommendation.equals("BUY") || analystRecommendation.equals("OVER") || analystRecommendation.equals("OVERWEIGHT")) {
 						return true;
 					} else if (analystRecommendation.equals("SELL") || analystRecommendation.equals("UNDER") || analystRecommendation.equals("UNDERWEIGHT") || analystRecommendation.equals("HOLD")) {
