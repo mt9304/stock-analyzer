@@ -92,15 +92,15 @@ public class NDCore {
 	
 	//Get current P/E Ratio from profile page. 
 	public String getPERatio() throws InterruptedException, IndexOutOfBoundsException {
-		Element industryNode;
+		Element peNode;
 		try {
-			industryNode = profileDocument.select("div.block.threewide.addgutter").get(0).select("div.section").get(0).select("p").get(1);
+			peNode = profileDocument.select("div.block.threewide.addgutter").get(0).select("div.section").get(0).select("p").get(1);
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println(tickerSymbol + ": Could not getPERatio(), node not found. ");
 			return null;
 		}
-		String industry = industryNode.text();
-		return industry;
+		String pe = peNode.text().replace(",", "");
+		return pe;
 	}
 	
 	//Gets current volume from profile page. Can be (without quotes) "85" "8,530" "1.2M" "2.4B"
