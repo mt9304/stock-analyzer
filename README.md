@@ -54,7 +54,7 @@ mvn clean install assembly:single
 2. Make sure you have the these folders/files following this path: 
 	- C:/stockdb/db
 	- C:/stockdb/logs
-	- C:/stockdp/tickers.txt
+	- C:/stockdb/tickers.txt
 	
 The tickers.txt file should include all the stock symboles separated by a new line with each entry. The database will be created and stored in db and logs will be in logs. These are hard-coded to be in these exact spots because I run this as part of a scheduled batch script on a remote server and it needs this structure to properly push/receive important files related to my workflow. 
 
