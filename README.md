@@ -9,22 +9,22 @@
 
 ## Introduction
 
-This program takes a list of company stock symbols and gathers each of the company's financial data (taken from income statements, balance sheets, etc). This data is then used calculate additional attributes such as Return on Equity and if the company is profitable. If a stock meets a certain criteria, such as having increasing revenue or EPS for the past year, a respective column will be set to true and put into a database. This process automates most of the fundamental information that I look for in a stock, but a lot of manual research will still be required to do a proper analysis (for example, searching up a CEO, evaluating the business model, or watching a conference). 
+This program takes a list of company stock symbols and gathers each of the company's financial data (taken from income statements, balance sheets, etc). This data is then used to calculate additional attributes such as Return on Equity and if the company is profitable. 
+If a stock meets a certain criteria (such as having increasing revenue or Earnings Per Share for the past year) a respective column will be set to true and put into a database. This process automates most of the fundamental information that I look for in a stock, but a lot of manual research will still be required to do a proper analysis (for example, searching up a CEO, evaluating the business model, or watching a conference). 
 
 ## Prerequisites
 
 ### Suggested Environment
 
-1. Java IDE with Maven installed
+1. Java IDE with Maven installed (JDK 8)
 2. JavaFX installed for IDE
-3. [JavaFX SceneBuilder 8+](http://gluonhq.com/products/scene-builder/) for drag and drop UI builder (if running with no args)
-4. Knowledge of [JavaFX](https://www.tutorialspoint.com/javafx/index.htm) and SceneBuilder
-5. SQLite and [sqlitebrowser](http://sqlitebrowser.org/)
+3. [JavaFX SceneBuilder 8+](http://gluonhq.com/products/scene-builder/) for drag and drop UI builder (don't need if running with parameter "runWithoutGUI")
+4. SQLite and [sqlitebrowser](http://sqlitebrowser.org/)
 
 ### Installation
 
 #### For development
-1. In terminal, go to directory you want to save project in and type: 
+1. In the terminal, go to directory you want to save project in and type: 
 ```bash
 git clone https://github.com/mt9304/stock-analyzer.git
 ```
@@ -49,8 +49,13 @@ mvn clean install assembly:single
 
 #### For deploying and running the jar file
 1. Go to the releases section and download the latest stock-analyzer.jar
-2. Run this file normally without arguments to run with the JavaFX GUI. As soon as you press Start, it should start working. In v1.0.0 there are no other GUI benefits to this, but I will be working on adding charts and other visual indicators for convenience
-3. Running from command-line without GUI (this will start the scraper right away and exit when the last ticker is completed): 
+2. Make sure you have the these folders/files following this path: 
+	- C:/stockdb/db
+	- C:/stockdb/logs
+	- C:/stockdp/tickers.txt
+The tickers.txt file should include all the stock symboles separated by a new line with each entry. The database will be created and stored in db and logs will be in logs. These are hard-coded to be in these exact spots because I run this as part of a scheduled batch script on a remote server and it needs this structure to properly push/receive important files related to my workflow. 
+3. Run this file normally without arguments to run with the JavaFX GUI. As soon as you press Start, it should start working. In v1.0.0 there are no other GUI benefits to this, but I will be working on adding charts and other visual indicators for convenience
+4. Running from the command-line without GUI (this will start the scraper right away and then exit when the last ticker is completed): 
 ```bash
 java -jar stock-analyzer.jar runWithoutGUI
 ```
