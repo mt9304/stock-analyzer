@@ -45,6 +45,7 @@ The command above skips the tests because they take a long time, but you can inc
 mvn clean install assembly:single
 ```
 (Tests take a long time on purpose since a lot of them are testing the website see if the proper data is still in the expected places. This means a lot of GET requests, so I put a sleep in between each request to avoid getting black-listed)
+
 2. After the above command completes, right click on the project and select Run As > Maven Build. Make sure you put assembly:single as a goal, then click Apply and Run
 3. There should now be a jar file with dependencies in the /target folder
 
