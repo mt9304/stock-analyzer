@@ -10,6 +10,7 @@
 ## Introduction
 
 This program takes a list of company stock symbols and gathers each of the company's financial data (taken from income statements, balance sheets, etc). This data is then used to calculate additional attributes such as Return on Equity and if the company is profitable. 
+
 If a stock meets a certain criteria (such as having increasing revenue or Earnings Per Share for the past year) a respective column will be set to true and put into a database. This process automates most of the fundamental information that I look for in a stock, but a lot of manual research will still be required to do a proper analysis (for example, searching up a CEO, evaluating the business model, or watching a conference). 
 
 ## Prerequisites
@@ -53,6 +54,7 @@ mvn clean install assembly:single
 	- C:/stockdb/db
 	- C:/stockdb/logs
 	- C:/stockdp/tickers.txt
+	
 The tickers.txt file should include all the stock symboles separated by a new line with each entry. The database will be created and stored in db and logs will be in logs. These are hard-coded to be in these exact spots because I run this as part of a scheduled batch script on a remote server and it needs this structure to properly push/receive important files related to my workflow. 
 3. Run this file normally without arguments to run with the JavaFX GUI. As soon as you press Start, it should start working. In v1.0.0 there are no other GUI benefits to this, but I will be working on adding charts and other visual indicators for convenience
 4. Running from the command-line without GUI (this will start the scraper right away and then exit when the last ticker is completed): 
