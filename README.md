@@ -1,20 +1,15 @@
-# JavaFX Template
+# Stock Analyzer
+## Extended from [JavaFXTemplate Project](https://github.com/mt9304/javafxtemplate)
 
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
   - [Suggested Environment](#suggested-environment)
   - [Installation](#installation)
-- [Extending Functions](#extending-functionality)
-  - [Adding To UI](#adding-to-ui)
-  - [Adding Settings](#adding-settings)
-  - [Starting The Program](#starting-the-program)
-- [Useful Information](#useful-information)
-  - [Custom Scene Helper](#custom-scene-helper)
-  - [Conventions](#conventions)
+- [Notes](#notes)
 
 ## Introduction
 
-This is a GUI template for starting new JavaFX projects. Most of the UI parts that I most commonly use are set up already so that I can just start building the logic behind the program or idea. 
+This program takes a list of company stock symbols and gathers each of the company's financial data (taken from income statements, balance sheets, etc). This data is then used calculate additional attributes such as Return on Equity and if the company is profitable. If a stock meets a certain criteria, such as having increasing revenue or EPS for the past year, a respective column will be set to true and put into a database. This process automates most of the fundamental information that I look for in a stock, but a lot of manual research will still be required to do a proper analysis (for example, searching up a CEO, evaluating the business model, or watching a conference). 
 
 ## Prerequisites
 
@@ -22,72 +17,43 @@ This is a GUI template for starting new JavaFX projects. Most of the UI parts th
 
 1. Java IDE with Maven installed
 2. JavaFX installed for IDE
-3. [JavaFX SceneBuilder 8+](http://gluonhq.com/products/scene-builder/) for drag and drop UI builder
+3. [JavaFX SceneBuilder 8+](http://gluonhq.com/products/scene-builder/) for drag and drop UI builder (if running with no args)
 4. Knowledge of [JavaFX](https://www.tutorialspoint.com/javafx/index.htm) and SceneBuilder
+5. SQLite and [sqlitebrowser](http://sqlitebrowser.org/)
 
 ### Installation
+
+#### For development
 1. In terminal, go to directory you want to save project in and type: 
 ```bash
-git clone https://github.com/mt9304/javafxtemplate.git
+git clone https://github.com/mt9304/stock-analyzer.git
 ```
 2. Go into project folder and type: 
 ```bash
 mvn install
 ```
-3. Build/Run the Main.java file in the javafxtemplate folder. 
+3. Build/Run the Main.java file in the javafxtemplate folder
 
-## Extending Functionality
+#### For exporting as a runnable jar with all dependencies included (Eclipse)
+1. Make sure main class path is correct in the mainclass tag for the pom.xml, then type: 
+```bash
+mvn clean install assembly:single -Dmaven.test.skip=true
+```
+The command above skips the tests because they take a long time, but you can include the tests as well by running this instead: 
+```bash
+mvn clean install assembly:single
+```
+(Tests take a long time on purpose since a lot of them are testing the website see if the proper data is still in the expected places. This means a lot of GET requests, so I put a sleep in between each request to avoid getting black-listed)
+2. After the above command completes, right click on the project and select Run As > Maven Build. Make sure you put assembly:single as a goal, then click Apply and Run
+3. There should now be a jar file with dependencies in the /target folder
 
-### Adding To UI
-
-1. The FXML files are all in /view/fxml. The components that will always be displayed (such as title bar, menu bar) will be in the alwaysdisplayed package. 
-2. To add a component, right click on the package and go to New > Empty FXML. 
-3. In the menu that pops up, name the FXML file and create its associating controller/css files. Controllers go into /controllers, and css files go into /view/css. 
-4. Edit the FXML file in SceneBuilder however you want. Once you are ready to add it to the application, open up the FXML file you want (for example, LeftMenuPane.fxml to add menu items, Main.fxml for root pane, Home.fxml for the home page) then go to File > Include > FXML to select the FXML you created, and add it into the scene. 
-
-
-### Adding Settings
-
-- There are usually 3 types of settings I use the most for projects: Settings specific to theapplication, API or databaseconnection settings, and general template settings. These each have a page on the default application, functions for these will be added. 
-
-### Starting The Program
-
-- The start button is already created in the home page. Home page FXML is in /view/fxml/contentarea. 
-- You can specify twhat you want the program to actually do in /controllers/contentarea/HomePageController.java in the `startApplication(MouseEvent)` function. 
-- By default, it is running the MainBotRoutine.java file found in /app/businesslogic. 
-- Using threads is recommended for starting the function, but if you want to interact with JavaFX UI components in the thread properly, the program may need to use [Platform.runLater and Tasks](https://stackoverflow.com/questions/16708931/javafx-working-with-threads-and-gui). 
-
-## Useful Information
-
-### Custom Scene Helper
-
-- You can use the CustomSceneHelper class in /helpers/services to help your controllers interact with other components in the scene that you can't normally reach. 
-
-
-Example for changing the color of an object in the scene: 
-```java
-@FXML
-private void highlightButton(MouseEvent event)
-{
-    String nodeID = sceneHelper.getSourceID(event.getSource());
-    Node eventNode = sceneHelper.getNodeById(nodeID);
-    eventNode.setStyle("-fx-background-color: #555764;");
-}
+#### For deploying and running the jar file
+1. Go to the releases section and download the latest stock-analyzer.jar
+2. Run this file normally without arguments to run with the JavaFX GUI. As soon as you press Start, it should start working. In v1.0.0 there are no other GUI benefits to this, but I will be working on adding charts and other visual indicators for convenience
+3. Running from command-line without GUI (this will start the scraper right away and exit when the last ticker is completed): 
+```bash
+java -jar stock-analyzer.jar runWithoutGUI
 ```
 
-- In the above, `event.getSource()` returns something like `Button[id=homeButton, styleClass=button leftPaneButton]'Home'`. We use the `getSourceID(Object)` function to find the name of the button that was clicked. Then we use the `getNodeById(String)` function to return the actual object. This should work as long as the [naming convention](#conventions) is followed. Once we have the object, we can do whatever we want to it. 
-
-### Conventions
-
-- So far there are 3 types of components in the default template: Button, Page, and ContentArea. 
-
-- Ids should always start with the first letter of its name lowered plus the component name in camel case. So the "Api/Database" button would be "apiDatabaseButton" and its corresponding page Id would be "apiDatabasePage". Might look into using underscores in the future if it is easier. 
-
-- Views and Controllers should follow this pattern: 
-	- /view/fxml/yourpackage/YourPage.fxml
-	- /view/css/yourpackage/YourPage.css
-	- /controllers/yourpackage/YourPageController.java
-
-- Tests follow the same structure as above, but go in the test folder instead of the main folder at the root. 
-
-- Keep the app's main function/logic in /app/businesslogic. This template is designed for small/single purpose programs (example, run a macro, calculate some formulas, convert some files). 
+## Notes
+The scraper logic is located in the helpers.scraper package. I will be adding more data to scrape for in the future, I just have to learn more about stocks and figure out what else is important to look for in a growing company. 
