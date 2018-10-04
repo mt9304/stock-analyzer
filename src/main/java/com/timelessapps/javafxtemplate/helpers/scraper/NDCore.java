@@ -34,7 +34,7 @@ public class NDCore {
 	String cashflowQuarterUrl; //https://www.marketwatch.com/investing/stock/${tickerSymbol}/financials/cash-flow/quarter
 	
 	
-	int scrapeDelay = 500; //Delay in ms between each HTTP action. 
+	int scrapeDelay = 850; //Delay in ms between each HTTP action. 
 	Document mainDocument;
 	Document analystDocument;
 	Document profileDocument;
