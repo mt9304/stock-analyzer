@@ -15,7 +15,7 @@ public class ND11Insider extends ND9Industry {
 		Element insiderTransactionNode;
 		try {
 			insiderTransactionNode = insiderDocument.getElementById("insiderTransactionSummary").getElementsByClass("shares").select("div").get(0);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException | NullPointerException e) {
 			System.out.println(tickerSymbol + ": Could not getSharesPurchasedInLastThreeMonths(), node not found. ");
 			return null;
 		}
@@ -27,7 +27,7 @@ public class ND11Insider extends ND9Industry {
 		Element insiderTransactionNode;
 		try {
 			insiderTransactionNode = insiderDocument.getElementById("insiderTransactionSummary").getElementsByClass("shares").select("div").get(1);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException | NullPointerException e) {
 			System.out.println(tickerSymbol + ": Could not getSharesSoldInLastThreeMonths(), node not found. ");
 			return null;
 		}

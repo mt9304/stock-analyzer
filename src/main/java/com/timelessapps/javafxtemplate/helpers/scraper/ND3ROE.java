@@ -31,7 +31,7 @@ public class ND3ROE extends ND2EPS {
 		Boolean isQuarter = false;
 		try { 
 			yearNode = document.select("table.crDataTable:contains(5-year trend)").get(1).select("th[scope]").get(index);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException | NullPointerException e) {
 			//System.out.println(tickerSymbol + ": Could not getNetIncomePeriodHeader(document, " + index + "), node not found. Trying for Quarter Document. ");
 			isYear = false;
 			isQuarter = true;
@@ -41,7 +41,7 @@ public class ND3ROE extends ND2EPS {
 			try { 
 				//System.out.println(tickerSymbol + ": Finding Quarter Document. ");
 				yearNode = document.select("table.crDataTable:contains(5-qtr trend)").get(1).select("th[scope]").get(index);
-			} catch (IndexOutOfBoundsException e) {
+			} catch (IndexOutOfBoundsException | NullPointerException e) {
 				isQuarter = false;
 				System.out.println(tickerSymbol + ": Could not getNetIncomePeriodHeader(document, " + index + "), both year and quarter nodes not found. ");
 				return null;
@@ -60,7 +60,7 @@ public class ND3ROE extends ND2EPS {
 		
 		try {
 			netIncomeNode = document.select("tbody > tr.totalRow:contains(Net Income)").get(0).select("td.valueCell").get(index);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException | NullPointerException e) {
 			System.out.println(tickerSymbol + ": Could not getNetIncomePeriodValue(document, " + index + "), node not found. ");
 			return null;
 		}
@@ -78,7 +78,7 @@ public class ND3ROE extends ND2EPS {
 		Boolean isQuarter = false;
 		try { 
 			yearNode = document.select("table.crDataTable:contains(5-year trend)").get(1).select("th[scope]").get(index);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException | NullPointerException e) {
 			//System.out.println(tickerSymbol + ": Could not getShareHolderEquityPeriodHeader(annualDocument, " + index + "), node not found. Trying for Quarter Document. ");
 			isYear = false;
 			isQuarter = true;
@@ -88,7 +88,7 @@ public class ND3ROE extends ND2EPS {
 			try { 
 				//System.out.println(tickerSymbol + ": Finding Quarter Document. ");
 				yearNode = document.select("table.crDataTable:contains(5-qtr trend)").get(1).select("th[scope]").get(index);
-			} catch (IndexOutOfBoundsException e) {
+			} catch (IndexOutOfBoundsException | NullPointerException e) {
 				isQuarter = false;
 				System.out.println(tickerSymbol + ": Could not getShareHolderEquityPeriodHeader(quarterDocument, " + index + "), both year and quarter nodes not found. ");
 				return null;
@@ -106,7 +106,7 @@ public class ND3ROE extends ND2EPS {
 		Element shareHolderEquityNode;
 		try {
 			shareHolderEquityNode = document.select("tbody > tr.partialSum:contains(Total Shareholders)").get(0).select("td.valueCell").get(index);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException | NullPointerException e) {
 			System.out.println(tickerSymbol + ": Could not getShareHolderEquityPeriodValue(document, " + index + "), node not found. ");
 			return null;
 		}

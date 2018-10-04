@@ -26,7 +26,7 @@ public class ND1Revenue extends NDCore
 		Boolean isQuarter = false;
 		try { 
 			yearNode = document.select("table.crDataTable:contains(5-year trend)").get(0).select("th[scope]").get(index);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException | NullPointerException e) {
 			//System.out.println(tickerSymbol + ": Could not getRevenuePeriodHeader(document, " + index + "), node not found. Trying for Quarter Document. ");
 			isYear = false;
 			isQuarter = true;
@@ -36,7 +36,7 @@ public class ND1Revenue extends NDCore
 			try { 
 				//System.out.println(tickerSymbol + ": Finding Quarter Document. ");
 				yearNode = document.select("table.crDataTable:contains(5-qtr trend)").get(0).select("th[scope]").get(index);
-			} catch (IndexOutOfBoundsException e) {
+			} catch (IndexOutOfBoundsException | NullPointerException e) {
 				isQuarter = false;
 				System.out.println(tickerSymbol + ": Could not getRevenuePeriodHeader(document, " + index + "), both year and quarter nodes not found. ");
 				return null;
@@ -55,7 +55,7 @@ public class ND1Revenue extends NDCore
 		
 		try {
 			revenueNode = document.select("tbody > tr.partialSum:contains(Sales/Revenue)").get(0).select("td.valueCell").get(index);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException | NullPointerException e) {
 			System.out.println(tickerSymbol + ": Could not getRevenuePeriodValue(document, " + index + "), node not found. ");
 			return null;
 		}
