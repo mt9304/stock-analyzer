@@ -13,10 +13,6 @@ public class ND1Revenue extends NDCore
 	public ND1Revenue(String tickerSymbol) throws IOException, InterruptedException
 	{
 		super(tickerSymbol);
-		incomeDocument = Jsoup.connect(incomeUrl).get();
-		Thread.sleep(scrapeDelay);
-		incomeQuarterDocument = Jsoup.connect(incomeQuarterUrl).get();
-		Thread.sleep(scrapeDelay);
 	}
 
 	/** *************************** **/

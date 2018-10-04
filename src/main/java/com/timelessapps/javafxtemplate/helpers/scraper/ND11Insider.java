@@ -9,7 +9,6 @@ public class ND11Insider extends ND9Industry {
 
 	public ND11Insider(String tickerSymbol) throws IOException, InterruptedException {
 		super(tickerSymbol);
-		insiderDocument = Jsoup.connect(insiderUrl).get();
 	}
 	
 	public Integer getSharesPurchasedInLastThreeMonths() throws IndexOutOfBoundsException {

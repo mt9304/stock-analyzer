@@ -1,6 +1,7 @@
 package main.java.com.timelessapps.javafxtemplate.helpers.scraper;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -62,10 +63,39 @@ public class NDCore {
 		cashflowUrl = mainUrl + "/cash-flow";
 		cashflowQuarterUrl = cashflowUrl + "/quarter";
 		
-		mainDocument = Jsoup.connect(mainUrl).get();
-		profileDocument = Jsoup.connect(profileUrl).get();
-		incomeDocument = Jsoup.connect(incomeUrl).get();
+		mainDocument = getDocument(mainUrl);
 		Thread.sleep(scrapeDelay);
+		profileDocument = getDocument(profileUrl);
+		Thread.sleep(scrapeDelay);
+		incomeDocument = getDocument(incomeUrl);
+		Thread.sleep(scrapeDelay);
+		incomeQuarterDocument = getDocument(incomeQuarterUrl);
+		Thread.sleep(scrapeDelay);
+		balanceSheetDocument = getDocument(balanceSheetUrl);
+		Thread.sleep(scrapeDelay);
+		balanceSheetQuarterDocument = getDocument(balanceSheetQuarterUrl);
+		Thread.sleep(scrapeDelay);
+		analystDocument = getDocument(analystUrl);
+		Thread.sleep(scrapeDelay);
+		insiderDocument = getDocument(insiderUrl);
+	}
+	
+	public Document getDocument(String url) {
+	    Document doc = null;
+
+	    for (int i=0;i<3;i++) {
+	        try {
+	        	System.out.println(tickerSymbol + ": Getting document for " + url);
+	            doc = Jsoup.connect(url).get();
+	            break;
+	        } catch (SocketTimeoutException ex){
+	            System.out.println(tickerSymbol + ": Could not get document for " + url + ". Trying " + i+1 + "/3");              
+	        }
+	        catch (IOException e) {
+	        	System.out.println(tickerSymbol + ": Could not get document for " + url + ". Trying " + i+1 + "/3"); 
+	        }           
+	    }
+	    return doc;
 	}
 	
 	/** ************************ **/

@@ -21,7 +21,12 @@ public class StockGatherer {
 		System.out.println("Gathering information for " + ticker);
 		NDWrapper stockCalc = new NDWrapper(ticker);
 		
-		Double price = Double.parseDouble(stockCalc.getCurrentPrice());
+		Double price;
+		if (stockCalc.getCurrentPrice() == null || stockCalc.getCurrentPrice().equals("")) { 
+			price = null;
+		} else {
+			price = Double.parseDouble(stockCalc.getCurrentPrice());
+		}
 		
 		//Should consider making the function return a Double instead of string. Will need to change database structure as well. 
 		Double pe;

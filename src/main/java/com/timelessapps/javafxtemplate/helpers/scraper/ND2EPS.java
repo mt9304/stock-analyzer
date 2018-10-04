@@ -11,7 +11,6 @@ public class ND2EPS extends ND1Revenue {
 
 	public ND2EPS(String tickerSymbol) throws IOException, InterruptedException {
 		super(tickerSymbol);
-		
 	}
 	
 	/** *********************** **/

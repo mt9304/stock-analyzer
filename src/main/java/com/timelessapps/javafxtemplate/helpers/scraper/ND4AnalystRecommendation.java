@@ -9,8 +9,6 @@ public class ND4AnalystRecommendation extends ND3ROE{
 
 	public ND4AnalystRecommendation(String tickerSymbol) throws IOException, InterruptedException {
 		super(tickerSymbol);
-		analystDocument = Jsoup.connect(analystUrl).get();
-		
 	}
 	
 	public String getAnalystRecommendation() throws IndexOutOfBoundsException {
