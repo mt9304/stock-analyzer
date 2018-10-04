@@ -24,7 +24,7 @@ public class ND2EPS extends ND1Revenue {
 		Boolean isQuarter = false;
 		try { 
 			yearNode = document.select("table.crDataTable:contains(5-year trend)").get(1).select("th[scope]").get(index);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException | NullPointerException e) {
 			//System.out.println(tickerSymbol + ": Could not getEPSPeriodHeader(document, " + index + "), node not found. Trying for Quarter Document. ");
 			isYear = false;
 			isQuarter = true;
@@ -34,7 +34,7 @@ public class ND2EPS extends ND1Revenue {
 			try { 
 				//System.out.println(tickerSymbol + ": Finding Quarter Document. ");
 				yearNode = document.select("table.crDataTable:contains(5-qtr trend)").get(1).select("th[scope]").get(index);
-			} catch (IndexOutOfBoundsException e) {
+			} catch (IndexOutOfBoundsException | NullPointerException e) {
 				isQuarter = false;
 				System.out.println(tickerSymbol + ": Could not getEPSPeriodHeader(document, " + index + "), both year and quarter nodes not found. ");
 				return null;
@@ -52,7 +52,7 @@ public class ND2EPS extends ND1Revenue {
 		Element epsNode;
 		try {
 			epsNode = document.getElementsByClass("crDataTable").get(1).select("tbody > tr.mainRow:contains(EPS (Basic))").get(0).select("td.valueCell").get(index);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException | NullPointerException e) {
 			System.out.println(tickerSymbol + ": Could not getEPSPeriodValue(document, " + index + "), node not found. ");
 			return null;
 		}
