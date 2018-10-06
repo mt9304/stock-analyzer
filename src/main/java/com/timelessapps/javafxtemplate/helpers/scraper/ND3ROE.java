@@ -13,10 +13,6 @@ public class ND3ROE extends ND2EPS {
 	//This class gets the Return On Equity percent value by getting the Net Income divided by the Total Shareholder's Equity. 
 	public ND3ROE(String tickerSymbol) throws IOException, InterruptedException {
 		super(tickerSymbol);
-		balanceSheetDocument = Jsoup.connect(balanceSheetUrl).get();
-		Thread.sleep(scrapeDelay);
-		balanceSheetQuarterDocument = Jsoup.connect(balanceSheetQuarterUrl).get();
-		Thread.sleep(scrapeDelay);
 	}
 	
 	/** *********************** **/
