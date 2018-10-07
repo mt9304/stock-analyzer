@@ -40,7 +40,7 @@ public class ND1Revenue extends NDCore
 					log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getRevenuePeriodHeader(document, " + index + "), both year and quarter nodes not found. (" + e + ")", LogType.TRACE);
 				} catch (FileNotFoundException e1)
 				{
-					e1.printStackTrace();
+					 
 				}
 				return null;
 			}
@@ -62,7 +62,7 @@ public class ND1Revenue extends NDCore
 				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getRevenuePeriodValue(document, " + index + "), node not found. (" + e + ")", LogType.TRACE);
 			} catch (FileNotFoundException e1)
 			{
-				e1.printStackTrace();
+				 
 			}
 			return null;
 		}
