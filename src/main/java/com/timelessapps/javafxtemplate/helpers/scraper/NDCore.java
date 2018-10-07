@@ -92,7 +92,7 @@ public class NDCore {
 				{
 					log.appendToEventLogsFile("(" + tickerSymbol + ") Could not get document for " + url + ". Trying " + i+1 + "/3", LogType.ERROR);
 				} catch (FileNotFoundException e) {
-					e.printStackTrace();
+					
 				}
 	        }
 	        catch (IOException e) {
@@ -100,7 +100,7 @@ public class NDCore {
 				{
 					log.appendToEventLogsFile("(" + tickerSymbol + ") Could not get document for " + url + ". Trying " + i+1 + "/3", LogType.ERROR);
 				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
+					 
 				}
 	        }           
 	    }
@@ -140,8 +140,7 @@ public class NDCore {
 				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getPERatio(), node not found. (" + e + ")", LogType.TRACE);
 			} catch (FileNotFoundException e1)
 			{
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				
 			}
 			return null;
 		}
@@ -160,8 +159,7 @@ public class NDCore {
 				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getVolume(), node not found. (" + e + ")", LogType.TRACE);
 			} catch (FileNotFoundException e1)
 			{
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				
 			}
 			return null;
 		}
@@ -189,7 +187,7 @@ public class NDCore {
 				{
 					log.appendToEventLogsFile("(" + tickerSymbol + ") ould not getLatestIncomeValue, node not found. (" + e + ")", LogType.TRACE);
 				} catch (FileNotFoundException e1){
-					e1.printStackTrace();
+					 
 				}
 				return null;
 			}
@@ -221,8 +219,7 @@ public class NDCore {
 				log.appendToEventLogsFile("(" + tickerSymbol + ") No M or B detected, invalid input for money. (" + money + ")", LogType.TRACE);
 			} catch (FileNotFoundException e)
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 			//If still number, just return the number. 
 			return null;
@@ -250,8 +247,7 @@ public class NDCore {
 				log.appendToEventLogsFile("(" + tickerSymbol + ") Money already numeric. (" + money + ")", LogType.TRACE);
 			} catch (FileNotFoundException e)
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 			String parsedMoney = money.replaceAll(",", "");
 			return Long.parseLong(parsedMoney);	//Sometimes value will be 170,000, need to replace comma. 
@@ -287,8 +283,7 @@ public class NDCore {
 				log.appendToEventLogsFile("(" + tickerSymbol + ") No decimal detected in :" + rawValueText + "Truncating to " + decimalSpaces + " digits: " + convertedValue, LogType.TRACE);
 			} catch (FileNotFoundException e)
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 			convertedValue = Double.parseDouble(rawValueText.substring(0,decimalSpaces+1));
 		}

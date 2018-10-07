@@ -45,8 +45,7 @@ public class ND3ROE extends ND2EPS {
 					log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getNetIncomePeriodHeader(document, " + index + "), both year and quarter nodes not found. (" + e + ")", LogType.TRACE);
 				} catch (FileNotFoundException e1)
 				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					
 				}
 				return null;
 			}
@@ -70,8 +69,7 @@ public class ND3ROE extends ND2EPS {
 				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getNetIncomePeriodValue(document, " + index + "), node not found. (" + e + ")", LogType.TRACE);
 			} catch (FileNotFoundException e1)
 			{
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				
 			}
 			return null;
 		}
@@ -101,8 +99,7 @@ public class ND3ROE extends ND2EPS {
 					log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getShareHolderEquityPeriodHeader(quarterDocument, " + index + "), both year and quarter nodes not found. (" + e + ")", LogType.TRACE);
 				} catch (FileNotFoundException e1)
 				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					
 				}
 				return null;
 			}
@@ -122,8 +119,7 @@ public class ND3ROE extends ND2EPS {
 				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getShareHolderEquityPeriodValue(document, " + index + "), node not found. (" + e + ")", LogType.TRACE);
 			} catch (FileNotFoundException e1)
 			{
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				
 			}
 			return null;
 		}

@@ -26,7 +26,7 @@ public class ND11Insider extends ND9Industry {
 				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getSharesPurchasedInLastThreeMonths(), node not found. (" + e + ")", LogType.TRACE);
 			} catch (FileNotFoundException e1)
 			{
-				e1.printStackTrace();
+				 
 			}
 			return null;
 		}
@@ -44,7 +44,7 @@ public class ND11Insider extends ND9Industry {
 				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getSharesSoldInLastThreeMonths(), node not found. (" + e + ")", LogType.TRACE);
 			} catch (FileNotFoundException e1)
 			{
-				e1.printStackTrace();
+				 
 			}
 			return null;
 		}

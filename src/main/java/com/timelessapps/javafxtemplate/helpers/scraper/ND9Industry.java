@@ -31,8 +31,7 @@ public class ND9Industry extends ND4AnalystRecommendation
 				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getIndustry(), node not found. (" + e + ")", LogType.TRACE);
 			} catch (FileNotFoundException e1)
 			{
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				
 			}
 			return null;
 		}
@@ -50,8 +49,7 @@ public class ND9Industry extends ND4AnalystRecommendation
 				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getSector(), node not found. (" + e + ")", LogType.TRACE);
 			} catch (FileNotFoundException e1)
 			{
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				
 			}
 			return null;
 		}

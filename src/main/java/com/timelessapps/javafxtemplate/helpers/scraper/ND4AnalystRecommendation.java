@@ -23,8 +23,7 @@ public class ND4AnalystRecommendation extends ND3ROE{
 				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getAnalystRecommendation(), node not found. (" + e + ")", LogType.TRACE);
 			} catch (FileNotFoundException e1)
 			{
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				
 			}
 			return null;
 		}

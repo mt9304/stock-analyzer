@@ -38,7 +38,7 @@ public class ND2EPS extends ND1Revenue {
 				{
 					log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getEPSPeriodHeader(document, " + index + "), both year and quarter nodes not found. (" + e + ")", LogType.TRACE);
 				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
+					 
 				}
 				return null;
 			}
@@ -57,7 +57,7 @@ public class ND2EPS extends ND1Revenue {
 			{
 				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getEPSPeriodValue(document, " + index + "), node not found. (" + e + ")", LogType.TRACE);
 			} catch (FileNotFoundException e1) {
-				e1.printStackTrace();
+				 
 			}
 			return null;
 		}
