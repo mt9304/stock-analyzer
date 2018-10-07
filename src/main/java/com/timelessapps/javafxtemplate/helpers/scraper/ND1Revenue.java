@@ -1,5 +1,6 @@
 package main.java.com.timelessapps.javafxtemplate.helpers.scraper;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -7,6 +8,8 @@ import java.util.Map;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import main.java.com.timelessapps.javafxtemplate.helpers.abstractsandenums.LogType;
 
 public class ND1Revenue extends NDCore
 {
@@ -20,43 +23,36 @@ public class ND1Revenue extends NDCore
 	/** *************************** **/
 	
 	//The period can be Years or Quarters. Years would be in the format "2013", Quarters would be in the format "30-Sep-2016"
-	public String getRevenuePeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
+	public String getRevenuePeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
 		Element yearNode = null;
 		Boolean isYear = true;
-		Boolean isQuarter = false;
 		try { 
 			yearNode = document.select("table.crDataTable:contains(5-year trend)").get(0).select("th[scope]").get(index);
 		} catch (IndexOutOfBoundsException | NullPointerException e) {
-			//System.out.println(tickerSymbol + ": Could not getRevenuePeriodHeader(document, " + index + "), node not found. Trying for Quarter Document. ");
 			isYear = false;
-			isQuarter = true;
 		}
 		
 		if (!isYear) {
 			try { 
-				//System.out.println(tickerSymbol + ": Finding Quarter Document. ");
 				yearNode = document.select("table.crDataTable:contains(5-qtr trend)").get(0).select("th[scope]").get(index);
 			} catch (IndexOutOfBoundsException | NullPointerException e) {
-				isQuarter = false;
-				System.out.println(tickerSymbol + ": Could not getRevenuePeriodHeader(document, " + index + "), both year and quarter nodes not found. ");
+				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getRevenuePeriodHeader(document, " + index + "), both year and quarter nodes not found. (" + e + ")", LogType.TRACE);
 				return null;
 			}
 		}
-		if (isQuarter) {
-			//System.out.println(tickerSymbol + ": Found Quarter Document. ");
-		}
+
 		String revenueYear = yearNode.text();
 		return revenueYear;
 	}
 	
 	//Gets the revenue values by index, 0 would be oldest period (2013 for years) and 4 would be latest period (2017 for years) at the current year of 2018. The scraper content is an HTML table. 
-	public String getRevenuePeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
+	public String getRevenuePeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
 		Element revenueNode;
 		
 		try {
 			revenueNode = document.select("tbody > tr.partialSum:contains(Sales/Revenue)").get(0).select("td.valueCell").get(index);
 		} catch (IndexOutOfBoundsException | NullPointerException e) {
-			System.out.println(tickerSymbol + ": Could not getRevenuePeriodValue(document, " + index + "), node not found. ");
+			log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getRevenuePeriodValue(document, " + index + "), node not found. (" + e + ")", LogType.TRACE);
 			return null;
 		}
 		String revenueValue = revenueNode.text().replaceAll("[)]", "").replaceAll("[(]", "-");
@@ -128,7 +124,7 @@ public class ND1Revenue extends NDCore
 								break;
 					default: 	parsedQuarterValueBuilder.setLength(0);
 								parsedQuarterValueBuilder.append(quarterValue);
-								//Log unexpected month. 
+								log.appendToEventLogsFile("(" + tickerSymbol + ") Cannot convert to Map, unexpected Quarter Month value: " + month, LogType.WARN);
 								break;
 				}
 				String parsedQuarterValue = parsedQuarterValueBuilder.toString();

@@ -1,16 +1,20 @@
 package main.java.com.timelessapps.javafxtemplate.helpers.scraper;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import main.java.com.timelessapps.javafxtemplate.helpers.abstractsandenums.LogType;
 import main.java.com.timelessapps.javafxtemplate.helpers.abstractsandenums.Period;
+import main.java.com.timelessapps.javafxtemplate.helpers.services.LoggingService;
 
 public class NDWrapper {
 				String tickerSymbol;
 				ND11Insider webScraper;
+				LoggingService log = new LoggingService();
 				
 				public NDWrapper(String tickerSymbol) throws IOException, InterruptedException{
 					this.tickerSymbol = tickerSymbol;
@@ -25,15 +29,15 @@ public class NDWrapper {
 					return webScraper.getCurrentPrice();
 				}
 				
-				public String getPERatio() throws InterruptedException {
+				public String getPERatio() throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
 					return webScraper.getPERatio();
 				}
 				
-				public String getVolume() throws InterruptedException {
+				public String getVolume() throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
 					return webScraper.getVolume();
 				}
 				
-				public Boolean hasPositiveLatestIncome() {
+				public Boolean hasPositiveLatestIncome() throws FileNotFoundException {
 					String latestIncomeValue = webScraper.getLatestIncomeValue();
 					
 					if (latestIncomeValue == null || latestIncomeValue.equals("")) {
@@ -66,7 +70,7 @@ public class NDWrapper {
 										break;
 						case QUARTER: 	revenueByPeriod = webScraper.getRevenueByQuarters();
 										break;
-						default: 		System.out.println("Invalid period entered: " + period);
+						default: 		log.appendToEventLogsFile("(" + tickerSymbol + ") Invalid period entered: " + period, LogType.ERROR);
 										break;
 					}
 
@@ -75,14 +79,14 @@ public class NDWrapper {
 					try {
 						keys = revenueByPeriod.keySet();
 					} catch (NullPointerException e) {
-						System.out.println(tickerSymbol + ": No revenuePercentIncrease available. ");
+						log.appendToEventLogsFile("(" + tickerSymbol + ") No revenuePercentIncrease available. (" + e + ")", LogType.TRACE);
 						return null;
 					}
 					
 					ArrayList<String> allPeriods = new ArrayList<>();
 					
 					if (keys.size() < 2) {
-						System.out.println("Not Enough " + period + " Data. ");
+						log.appendToEventLogsFile("(" + tickerSymbol + ") Not enough " + period + " data. ", LogType.TRACE);
 						return null;
 					} else {
 						for (String k : keys) {
@@ -98,7 +102,7 @@ public class NDWrapper {
 								return null;
 							}
 						} catch (NullPointerException e) {
-							System.out.println(tickerSymbol + ": Missing revenue information for " + period + ". " + e);
+							log.appendToEventLogsFile("(" + tickerSymbol + ") Missing revenue information for " + period + ". (" + e + ")", LogType.TRACE);
 							return null;
 						}
 						
@@ -120,7 +124,7 @@ public class NDWrapper {
 										break;
 						case QUARTER: 	revenueByPeriod = webScraper.getRevenueByQuarters();
 										break;
-						default: 		System.out.println("Invalid period entered: " + period);
+						default: 		log.appendToEventLogsFile("(" + tickerSymbol + ") Invalid period entered: " + period, LogType.ERROR);
 										break;
 					}
 
@@ -129,14 +133,14 @@ public class NDWrapper {
 					try {
 						keys = revenueByPeriod.keySet();
 					} catch (NullPointerException e) {
-						System.out.println(tickerSymbol + ": No nodes available for hasIncreasingRevenue. ");
+						log.appendToEventLogsFile("(" + tickerSymbol + ") No nodes available for hasIncreasingRevenue(). (" + e + ")", LogType.TRACE);
 						return null;
 					}
 					
 					ArrayList<String> allPeriods = new ArrayList<>();
 					
 					if (keys.size() < 2) {
-						System.out.println("Not Enough " + period + " Data. ");
+						log.appendToEventLogsFile("(" + tickerSymbol + ") Not enough " + period + " data. ", LogType.TRACE);
 						return null;
 					} else {
 						for (String k : keys) {
@@ -152,7 +156,7 @@ public class NDWrapper {
 								return null;
 							}
 						} catch (NullPointerException e) {
-							System.out.println(tickerSymbol + ": Missing revenue information for " + period + ". " + e);
+								log.appendToEventLogsFile("(" + tickerSymbol + ") Missing revenue information for " + period + ". (" + e + ")", LogType.TRACE);
 							return null;
 						}
 						
@@ -191,7 +195,7 @@ public class NDWrapper {
 										break;
 						case QUARTER: 	epsByPeriod = webScraper.getEPSByQuarters();
 										break;
-						default: 		System.out.println("Invalid period entered: " + period);
+						default: 		log.appendToEventLogsFile("(" + tickerSymbol + ") Invalid period entered: " + period, LogType.ERROR);
 										break;
 					}
 
@@ -200,14 +204,14 @@ public class NDWrapper {
 					try {
 						keys = epsByPeriod.keySet();
 					} catch (NullPointerException e) {
-						System.out.println(tickerSymbol + ": " + "No epsPercentIncrease available. ");
+						log.appendToEventLogsFile("(" + tickerSymbol + ") No epsPercentIncrease available. (" + e + ")", LogType.TRACE);
 						return null;
 					}
 					
 					ArrayList<String> allPeriods = new ArrayList<>();
 					
 					if (keys.size() < 2) {
-						System.out.println("Not Enough " + period + " Data. ");
+						log.appendToEventLogsFile("(" + tickerSymbol + ") Not enough " + period + " data. ", LogType.TRACE);
 						return null;
 					} else {
 						for (String k : keys) {
@@ -223,7 +227,7 @@ public class NDWrapper {
 								return null;
 							}
 						} catch (NullPointerException e) {
-							System.out.println(tickerSymbol + ": Missing revenue information for " + period + ". " + e);
+							log.appendToEventLogsFile("(" + tickerSymbol + ") Missing revenue information for " + period + ". (" + e + ")", LogType.TRACE);
 							return null;
 						}
 						
@@ -242,11 +246,10 @@ public class NDWrapper {
 					
 					switch (period) { 
 						case YEAR: 		epsByPeriod = webScraper.getEPSByYears();
-										//System.out.println(epsByPeriod);
 										break;
 						case QUARTER: 	epsByPeriod = webScraper.getEPSByQuarters();
 										break;
-						default: 		System.out.println("Invalid period entered: " + period);
+						default: 		log.appendToEventLogsFile("(" + tickerSymbol + ") Invalid period entered: " + period, LogType.ERROR);
 										break;
 					}
 
@@ -255,14 +258,14 @@ public class NDWrapper {
 					try {
 						keys = epsByPeriod.keySet();
 					} catch (NullPointerException e) {
-						System.out.println(tickerSymbol + ": " + "No epsByPeriod available. ");
+						log.appendToEventLogsFile("(" + tickerSymbol + ") No epsByPeriod available. (" + e + ")", LogType.TRACE);
 						return null;
 					}
 					
 					ArrayList<String> allPeriods = new ArrayList<>();
 					
 					if (keys.size() < 2) {
-						System.out.println("Not Enough " + period + " Data. ");
+						log.appendToEventLogsFile("(" + tickerSymbol + ") Not enough " + period + " data. ", LogType.TRACE);
 						return null;
 					} else {
 						for (String k : keys) {
@@ -278,7 +281,7 @@ public class NDWrapper {
 								return null;
 							}
 						} catch (NullPointerException e) {
-							System.out.println(tickerSymbol + ": Missing revenue information for " + period + ". " + e);
+							log.appendToEventLogsFile("(" + tickerSymbol + ") Missing revenue information for " + period + ". (" + e + ")", LogType.TRACE);
 							return null;
 						}
 						
@@ -312,7 +315,7 @@ public class NDWrapper {
 										break;
 						case QUARTER: 	roeByPeriod = webScraper.getROEByQuarters();
 										break;
-						default: 		System.out.println("Invalid period entered: " + period);
+						default: 		log.appendToEventLogsFile("(" + tickerSymbol + ") Invalid period entered: " + period, LogType.ERROR);
 										break;
 					}
 
@@ -321,14 +324,14 @@ public class NDWrapper {
 					try {
 						keys = roeByPeriod.keySet();
 					} catch (NullPointerException e) {
-						System.out.println(tickerSymbol + ": " + "No roePercentIncrease available. ");
+						log.appendToEventLogsFile("(" + tickerSymbol + ") No roePercentIncrease available. (" + e + ")", LogType.TRACE);
 						return null;
 					}
 					
 					ArrayList<String> allPeriods = new ArrayList<>();
 					
 					if (keys.size() < 2) {
-						System.out.println("Not Enough " + period + " Data. ");
+						log.appendToEventLogsFile("(" + tickerSymbol + ") Not enough " + period + " data. ", LogType.TRACE);
 						return null;
 					} else {
 						for (String k : keys) {
@@ -344,7 +347,7 @@ public class NDWrapper {
 								return null;
 							}
 						} catch (NullPointerException e) {
-							System.out.println(tickerSymbol + ": Missing revenue information for " + period + ". " + e);
+							log.appendToEventLogsFile("(" + tickerSymbol + ") Missing revenue information for " + period + ". (" + e + ")", LogType.TRACE);
 							return null;
 						}
 						
@@ -366,7 +369,7 @@ public class NDWrapper {
 							return false;
 						}
 					} catch (NullPointerException e) {
-						System.out.println(tickerSymbol + ": Could not find hasIncreasingROE. ");
+						log.appendToEventLogsFile("(" + tickerSymbol + ") Could not find hasIncreasingROE. (" + e + ")", LogType.TRACE);
 					}
 					return null;
 				}
@@ -379,11 +382,11 @@ public class NDWrapper {
 				/** Start: 4 Analyst Recommendation **/
 				/** ******************************* **/
 				
-				public String getAnalystRecommendation() {
+				public String getAnalystRecommendation() throws IndexOutOfBoundsException, FileNotFoundException {
 					return webScraper.getAnalystRecommendation();
 				}
 				
-				public Boolean analystRecommendationIsPositive() {
+				public Boolean analystRecommendationIsPositive() throws IndexOutOfBoundsException, FileNotFoundException {
 					String analystRecommendation = getAnalystRecommendation();
 					
 					if (analystRecommendation == null) {
@@ -406,11 +409,11 @@ public class NDWrapper {
 				/** Start: 9 Industry **/
 				/** ***************** **/
 				
-				public String getIndustry() throws InterruptedException {
+				public String getIndustry() throws InterruptedException, FileNotFoundException {
 					return webScraper.getIndustry();
 				}
 				
-				public String getSector() throws InterruptedException {
+				public String getSector() throws InterruptedException, FileNotFoundException {
 					return webScraper.getSector();
 				}
 				
@@ -420,9 +423,11 @@ public class NDWrapper {
 				
 				/** ************************** **/
 				/** Start: 11 Insider Activity **/
-				/** ************************** **/
+				/** ************************** 
+				 * @throws FileNotFoundException 
+				 * @throws IndexOutOfBoundsException **/
 				
-				public Boolean hasMoreInsiderBuysThanSells() {
+				public Boolean hasMoreInsiderBuysThanSells() throws IndexOutOfBoundsException, FileNotFoundException {
 					Integer sharesPurchased = webScraper.getSharesPurchasedInLastThreeMonths();
 					Integer sharesSold = webScraper.getSharesSoldInLastThreeMonths();
 					

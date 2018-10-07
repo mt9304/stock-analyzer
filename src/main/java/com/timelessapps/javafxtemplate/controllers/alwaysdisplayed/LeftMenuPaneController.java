@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import main.java.com.timelessapps.javafxtemplate.controllers.contentarea.LogsPageController;
+import main.java.com.timelessapps.javafxtemplate.helpers.abstractsandenums.LogType;
 import main.java.com.timelessapps.javafxtemplate.helpers.services.CustomSceneHelper;
 import main.java.com.timelessapps.javafxtemplate.helpers.services.LoggingService;
 
@@ -79,8 +80,8 @@ public class LeftMenuPaneController implements Initializable
         sceneHelper.bringNodeToFront(buttonName, "Page");
         
         //For Logging. TO DO remember to delete this
-        loggingService.appendToApplicationLogsFile(buttonName);
-        loggingService.appendToEventLogsFile(buttonName);    
+        //loggingService.appendToApplicationLogsFile(buttonName, LogType.TRACE);
+        //loggingService.appendToEventLogsFile(buttonName, LogType.TRACE);    
     }
     
     @Override

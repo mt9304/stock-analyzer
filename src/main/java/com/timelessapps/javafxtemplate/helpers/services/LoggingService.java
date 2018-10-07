@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
+import main.java.com.timelessapps.javafxtemplate.helpers.abstractsandenums.LogType;
+
 public class LoggingService 
 {
     private CustomSceneHelper sceneHelper;
@@ -33,25 +35,25 @@ public class LoggingService
         printWriter.close();
     }
     
-    public void appendToEventLogsFile(String logText) throws FileNotFoundException
+    public void appendToEventLogsFile(String logText, LogType logType) throws FileNotFoundException
     {
         timestamp = new Timestamp(System.currentTimeMillis());
         currentDate = currentDateFormat.format(timestamp);
         currentTime = currentTimeFormat.format(timestamp);
 	
         String fileName = currentDate + "_" + "EventLog.txt";
-        String formattedLogText = "[" + currentTime + "]: " + logText;
+        String formattedLogText = "[" + currentTime + "][" + logType + "]: " + logText;
         writeLineToFile(fileName, formattedLogText);
     }
     
-    public void appendToApplicationLogsFile(String logText) throws FileNotFoundException
+    public void appendToApplicationLogsFile(String logText, LogType logType) throws FileNotFoundException
     {
         timestamp = new Timestamp(System.currentTimeMillis());
         currentDate = currentDateFormat.format(timestamp);
         currentTime = currentTimeFormat.format(timestamp);
 	
         String fileName = currentDate + "_" + "ApplicationLog.txt";
-        String formattedLogText = "[" + currentTime + "]: " + logText;
+        String formattedLogText = "[" + currentTime + "][" + logType + "]: " + logText;
         writeLineToFile(fileName, formattedLogText);
     }
 }

@@ -1,11 +1,14 @@
 package main.java.com.timelessapps.javafxtemplate.helpers.scraper;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import main.java.com.timelessapps.javafxtemplate.helpers.abstractsandenums.LogType;
 
 public class ND2EPS extends ND1Revenue {
 
@@ -18,42 +21,34 @@ public class ND2EPS extends ND1Revenue {
 	/** *********************** **/
 	
 	//The period can be Years or Quarters. Years would be in the format "2013", Quarters would be in the format "30-Sep-2016"
-	public String getEPSPeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
+	public String getEPSPeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
 		Element yearNode = null;
 		Boolean isYear = true;
-		Boolean isQuarter = false;
 		try { 
 			yearNode = document.select("table.crDataTable:contains(5-year trend)").get(1).select("th[scope]").get(index);
 		} catch (IndexOutOfBoundsException | NullPointerException e) {
-			//System.out.println(tickerSymbol + ": Could not getEPSPeriodHeader(document, " + index + "), node not found. Trying for Quarter Document. ");
 			isYear = false;
-			isQuarter = true;
 		}
 		
 		if (!isYear) {
 			try { 
-				//System.out.println(tickerSymbol + ": Finding Quarter Document. ");
 				yearNode = document.select("table.crDataTable:contains(5-qtr trend)").get(1).select("th[scope]").get(index);
 			} catch (IndexOutOfBoundsException | NullPointerException e) {
-				isQuarter = false;
-				System.out.println(tickerSymbol + ": Could not getEPSPeriodHeader(document, " + index + "), both year and quarter nodes not found. ");
+				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getEPSPeriodHeader(document, " + index + "), both year and quarter nodes not found. (" + e + ")", LogType.TRACE);
 				return null;
 			}
-		}
-		if (isQuarter) {
-			//System.out.println(tickerSymbol + ": Found Quarter Document. ");
 		}
 		String epsYear = yearNode.text();
 		return epsYear;
 	}
 	
 	//Gets the EPS values by index, 0 would be oldest period (2013 for years) and 4 would be latest period (2017 for years) at the current year of 2018. The scraper content is an HTML table. 
-	public String getEPSPeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
+	public String getEPSPeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
 		Element epsNode;
 		try {
 			epsNode = document.getElementsByClass("crDataTable").get(1).select("tbody > tr.mainRow:contains(EPS (Basic))").get(0).select("td.valueCell").get(index);
 		} catch (IndexOutOfBoundsException | NullPointerException e) {
-			System.out.println(tickerSymbol + ": Could not getEPSPeriodValue(document, " + index + "), node not found. ");
+			log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getEPSPeriodValue(document, " + index + "), node not found. (" + e + ")", LogType.TRACE);
 			return null;
 		}
 		String epsValue = epsNode.text().replaceAll("[)]", "").replaceAll("[(]", "-");//Sometimes values will have brackets like "(0.08)", indicating negative numbers. 
@@ -73,7 +68,7 @@ public class ND2EPS extends ND1Revenue {
 					epsByYears.put(yearValue, epsValue);
 				}
 			} catch (NullPointerException e) {
-				System.out.println(tickerSymbol + ": " + "Could not getEPSByYears, no node available. ");
+				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getEPSByYears, no node available. (" + e + ")", LogType.TRACE);
 				return null;
 			}
 		}
@@ -126,7 +121,7 @@ public class ND2EPS extends ND1Revenue {
 							break;
 				default: 	parsedQuarterValueBuilder.setLength(0);
 							parsedQuarterValueBuilder.append(quarterValue);
-							System.out.println("["+ tickerSymbol + "]: Cannot convert to Map, unexpected Quarter Month value: " + month);
+							log.appendToEventLogsFile("(" + tickerSymbol + ") Cannot convert to Map, unexpected Quarter Month value: " + month, LogType.WARN);
 							break;
 				}
 				String parsedQuarterValue = parsedQuarterValueBuilder.toString();

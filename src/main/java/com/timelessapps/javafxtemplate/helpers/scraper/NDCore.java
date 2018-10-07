@@ -1,5 +1,6 @@
 package main.java.com.timelessapps.javafxtemplate.helpers.scraper;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.Arrays;
@@ -12,12 +13,16 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import main.java.com.timelessapps.javafxtemplate.helpers.abstractsandenums.LogType;
+import main.java.com.timelessapps.javafxtemplate.helpers.services.LoggingService;
+
 public class NDCore {
 	
 	/** ************************** **/
 	/** Begin Initializing Scraper **/
 	/** ************************** **/
 	
+	LoggingService log;
 	String tickerSymbol; //MSFT
 	String mainUrl; //https://www.marketwatch.com/investing/stock/${tickerSymbol}
 	String analystUrl; //https://www.marketwatch.com/investing/stock/${tickerSymbol}/analystestimates
@@ -45,9 +50,9 @@ public class NDCore {
 	Document balanceSheetQuarterDocument;
 	Document cashflowDocument;
 	Document cashflowQuarterDocument;
-
 	
 	public NDCore(String tickerSymbol) throws IOException, InterruptedException {
+		this.log = new LoggingService();
 		this.tickerSymbol = tickerSymbol;
 		mainUrl = "https://www.marketwatch.com/investing/stock/" + tickerSymbol;
 		analystUrl = mainUrl + "/analystestimates";
@@ -80,19 +85,20 @@ public class NDCore {
 		insiderDocument = getDocument(insiderUrl);
 	}
 	
-	public Document getDocument(String url) {
+	public Document getDocument(String url) throws FileNotFoundException {
 	    Document doc = null;
 
 	    for (int i=0;i<3;i++) {
 	        try {
 	        	System.out.println(tickerSymbol + ": Getting document for " + url);
+	        	log.appendToEventLogsFile("(" + tickerSymbol + ") Getting document for " + url, LogType.TRACE);
 	            doc = Jsoup.connect(url).get();
 	            break;
 	        } catch (SocketTimeoutException ex){
-	            System.out.println(tickerSymbol + ": Could not get document for " + url + ". Trying " + i+1 + "/3");              
+	            log.appendToEventLogsFile("(" + tickerSymbol + ") Could not get document for " + url + ". Trying " + i+1 + "/3", LogType.ERROR);
 	        }
 	        catch (IOException e) {
-	        	System.out.println(tickerSymbol + ": Could not get document for " + url + ". Trying " + i+1 + "/3"); 
+	        	log.appendToEventLogsFile("(" + tickerSymbol + ") Could not get document for " + url + ". Trying " + i+1 + "/3", LogType.ERROR);
 	        }           
 	    }
 	    return doc;
@@ -113,7 +119,7 @@ public class NDCore {
 		try {
 			stockPriceElement = profileDocument.getElementsByClass("pricewrap").get(0).getElementsByClass("data").get(0);
 		} catch (IndexOutOfBoundsException e) {
-			System.out.println(tickerSymbol + ": Could not getCurrentPrice(), node not found. ");
+			log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getCurrentPrice(), node not found. (" + e + ")", LogType.TRACE);
 			return null;
 		}
 		String elementValue = stockPriceElement.text().replaceAll(",", "");
@@ -121,12 +127,12 @@ public class NDCore {
 	}
 	
 	//Get current P/E Ratio from profile page. 
-	public String getPERatio() throws InterruptedException, IndexOutOfBoundsException {
+	public String getPERatio() throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
 		Element peNode;
 		try {
 			peNode = profileDocument.select("div.block.threewide.addgutter").get(0).select("div.section").get(0).select("p").get(1);
 		} catch (IndexOutOfBoundsException e) {
-			System.out.println(tickerSymbol + ": Could not getPERatio(), node not found. ");
+			log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getPERatio(), node not found. (" + e + ")", LogType.TRACE);
 			return null;
 		}
 		String pe = peNode.text().replace(",", "");
@@ -134,12 +140,12 @@ public class NDCore {
 	}
 	
 	//Gets current volume from profile page. Can be (without quotes) "85" "8,530" "1.2M" "2.4B"
-	public String getVolume() throws InterruptedException, IndexOutOfBoundsException {
+	public String getVolume() throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
 		Element volumeNode;
 		try {
 			volumeNode = profileDocument.select("div.section.activeQuote.bgQuote").get(0).select("div").get(5).select("p").get(3).select("span").get(1);
 		} catch (IndexOutOfBoundsException e) {
-			System.out.println(tickerSymbol + ": Could not getVolume(), node not found. ");
+			log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getVolume(), node not found. (" + e + ")", LogType.TRACE);
 			return null;
 		}
 		
@@ -153,7 +159,7 @@ public class NDCore {
 	}
 	
 	//Gets the income column values from the financial page, then sets the income node to the latest non-empty value each time. This ensures that gaps in financial data are disregarded, and the latest available income value is retrieved. 
-	public String getLatestIncomeValue() {
+	public String getLatestIncomeValue() throws FileNotFoundException {
 			Element latestIncomeNode = null;
 			try {
 				for (int i = 0; i < 5; i++) {
@@ -162,7 +168,7 @@ public class NDCore {
 					}
 				}
 			} catch (IndexOutOfBoundsException e) {
-				System.out.println(tickerSymbol + ": Could not getLatestIncomeValue, node not found. ");
+				log.appendToEventLogsFile("(" + tickerSymbol + ") ould not getLatestIncomeValue, node not found. (" + e + ")", LogType.TRACE);
 				return null;
 			}
 			String latestIncomeValue = latestIncomeNode.text().replaceAll("[)]", "").replaceAll("[(]", "-"); //Sometimes values will have brackets like "(0.08)". 
@@ -175,10 +181,11 @@ public class NDCore {
 	
 	/** ****************************************************** **/
 	/** 000B_Start: This Section is for parsing money values.  **/
-	/** ****************************************************** **/
+	/** ****************************************************** 
+	 * @throws FileNotFoundException **/
 	
 	//Converts 11.1B to 11,100,000,000 and 2M to 2,000,000 without the commas. 
-	public Long getParsedAlphaNumericMoney(String money) {
+	public Long getParsedAlphaNumericMoney(String money) throws FileNotFoundException {
 		int decimalSpaces = 0;
 		
 		//Sometimes this doesn't exist. 
@@ -188,7 +195,7 @@ public class NDCore {
 		
 		if (!money.contains("M") && !money.contains("B") && !money.contains(","))
 		{
-			System.out.println("No M or B detected, invalid input for money. " + money + ")");
+			log.appendToEventLogsFile("(" + tickerSymbol + ") No M or B detected, invalid input for money. (" + money + ")", LogType.TRACE);
 			//If still number, just return the number. 
 			return null;
 		}
@@ -210,7 +217,7 @@ public class NDCore {
 			}
 			
 		} else {
-			System.out.println("Money already numeric. ");
+			log.appendToEventLogsFile("(" + tickerSymbol + ") Money already numeric. (" + money + ")", LogType.TRACE);
 			String parsedMoney = money.replaceAll(",", "");
 			return Long.parseLong(parsedMoney);	//Sometimes value will be 170,000, need to replace comma. 
 		}
@@ -221,7 +228,7 @@ public class NDCore {
 	}
 	
 	//Convert to only use decimal of last few digits. (Omits 0s at the end though). 
-	public Double useDecimalPlaces(Double rawValue, int decimalSpaces) {
+	public Double useDecimalPlaces(Double rawValue, int decimalSpaces) throws FileNotFoundException {
 		//Prevent issues with digits too low. 
 		//if (rawValue.toString().length() < 5) {
 			//rawValue = rawValue *10000;
@@ -240,14 +247,14 @@ public class NDCore {
 			int decimalIndex = rawValueText.indexOf(".");
 			convertedValue = Double.parseDouble(rawValueText.substring(0,decimalIndex+decimalSpaces+1));
 		} else {
-			System.out.println("No decimal detected in :" + rawValueText + "Truncating to " + decimalSpaces + " digits: " + convertedValue);
+			log.appendToEventLogsFile("(" + tickerSymbol + ") No decimal detected in :" + rawValueText + "Truncating to " + decimalSpaces + " digits: " + convertedValue, LogType.TRACE);
 			convertedValue = Double.parseDouble(rawValueText.substring(0,decimalSpaces+1));
 		}
 		return convertedValue;
 	}
 	
 	//Divides latest period by second latest period to get the percent increase/decrease. For large values like 1.1B that have been converted to 1100000000. 
-	public Double convertDifferenceToPercent(Long latestPeriodValue, Long secondLatestPeriodValue) {
+	public Double convertDifferenceToPercent(Long latestPeriodValue, Long secondLatestPeriodValue) throws FileNotFoundException {
 		//If incomplete income statement. 
 		if (latestPeriodValue == null | secondLatestPeriodValue == null) {
 			return null;
@@ -264,21 +271,19 @@ public class NDCore {
 				percentIncreaseText = Double.toString(unParsedPercentIncrease*100).substring(1); //Changes 1.2467 to 24.67. 
 			}
 			Double percentIncrease = useDecimalPlaces(Double.parseDouble(percentIncreaseText), 2);
-			//System.out.println("Increasing: " + percentIncrease);
 			return percentIncrease;
 			
 		} else if (unParsedPercentIncrease < 1) {
 			Double differenceIncrease = 1 - unParsedPercentIncrease;
 			String percentIncreaseText = Double.toString(differenceIncrease*100); //Changes 0.8550 to 14.5000000...
 			Double percentIncrease = useDecimalPlaces(Double.parseDouble(percentIncreaseText), 2)*-1; //Changes 14.5000000 to 14.50
-			//System.out.println("Decreasing: " + percentIncrease);
 			return percentIncrease;
 		}
 		return null;
 	}
 	
 	//Divides latest period by second latest period to get the percent increase/decrease. For values like EPS that have decimals: 10.2
-	public Double convertDifferenceToPercent(Double latestPeriodValue, Double secondLatestPeriodValue) {
+	public Double convertDifferenceToPercent(Double latestPeriodValue, Double secondLatestPeriodValue) throws NumberFormatException, FileNotFoundException {
 		//Would be something like 1.2467 or 0.8550
 		Double unParsedPercentIncrease = useDecimalPlaces(latestPeriodValue/secondLatestPeriodValue, 4);
 		
@@ -290,14 +295,12 @@ public class NDCore {
 				percentIncreaseText = Double.toString(unParsedPercentIncrease*100).substring(1); //Changes 1.2467 to 24.67. 
 			}
 			Double percentIncrease = useDecimalPlaces(Double.parseDouble(percentIncreaseText), 2);
-			//System.out.println("Increasing: " + percentIncrease);
 			return percentIncrease;
 			
 		} else if (unParsedPercentIncrease < 1) {
 			Double differenceIncrease = 1 - unParsedPercentIncrease;
 			String percentIncreaseText = Double.toString(differenceIncrease*100); //Changes 0.8550 to 14.5000000...
 			Double percentIncrease = useDecimalPlaces(Double.parseDouble(percentIncreaseText), 2)*-1; //Changes 14.5000000 to 14.50
-			//System.out.println("Decreasing: " + percentIncrease);
 			return percentIncrease;
 		}
 		return null;

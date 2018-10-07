@@ -1,5 +1,6 @@
 package main.java.com.timelessapps.javafxtemplate.helpers.scraper;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -7,6 +8,8 @@ import java.util.Map;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import main.java.com.timelessapps.javafxtemplate.helpers.abstractsandenums.LogType;
 
 public class ND3ROE extends ND2EPS {
 
@@ -21,14 +24,13 @@ public class ND3ROE extends ND2EPS {
 	
 	/** Total Net Income Start. **/
 	//The period can be Years or Quarters. Years would be in the format "2013", Quarters would be in the format "30-Sep-2016"
-	public String getNetIncomePeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
+	public String getNetIncomePeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
 		Element yearNode = null;
 		Boolean isYear = true;
 		Boolean isQuarter = false;
 		try { 
 			yearNode = document.select("table.crDataTable:contains(5-year trend)").get(1).select("th[scope]").get(index);
 		} catch (IndexOutOfBoundsException | NullPointerException e) {
-			//System.out.println(tickerSymbol + ": Could not getNetIncomePeriodHeader(document, " + index + "), node not found. Trying for Quarter Document. ");
 			isYear = false;
 			isQuarter = true;
 		}
@@ -39,7 +41,7 @@ public class ND3ROE extends ND2EPS {
 				yearNode = document.select("table.crDataTable:contains(5-qtr trend)").get(1).select("th[scope]").get(index);
 			} catch (IndexOutOfBoundsException | NullPointerException e) {
 				isQuarter = false;
-				System.out.println(tickerSymbol + ": Could not getNetIncomePeriodHeader(document, " + index + "), both year and quarter nodes not found. ");
+				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getNetIncomePeriodHeader(document, " + index + "), both year and quarter nodes not found. (" + e + ")", LogType.TRACE);
 				return null;
 			}
 		}
@@ -51,13 +53,13 @@ public class ND3ROE extends ND2EPS {
 	}
 	
 	//Gets the EPS values by index, 0 would be oldest period (2013 for years) and 4 would be latest period (2017 for years) at the current year of 2018. The scraper content is an HTML table. 
-	public String getNetIncomePeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
+	public String getNetIncomePeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
 		Element netIncomeNode;
 		
 		try {
 			netIncomeNode = document.select("tbody > tr.totalRow:contains(Net Income)").get(0).select("td.valueCell").get(index);
 		} catch (IndexOutOfBoundsException | NullPointerException e) {
-			System.out.println(tickerSymbol + ": Could not getNetIncomePeriodValue(document, " + index + "), node not found. ");
+			log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getNetIncomePeriodValue(document, " + index + "), node not found. (" + e + ")", LogType.TRACE);
 			return null;
 		}
 		
@@ -68,42 +70,34 @@ public class ND3ROE extends ND2EPS {
 	
 	/** Total Shareholder's Equity Start. **/
 	//The period can be Years or Quarters. Years would be in the format "2013", Quarters would be in the format "30-Sep-2016"
-	public String getShareHolderEquityPeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
+	public String getShareHolderEquityPeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
 		Element yearNode = null;
 		Boolean isYear = true;
-		Boolean isQuarter = false;
 		try { 
 			yearNode = document.select("table.crDataTable:contains(5-year trend)").get(1).select("th[scope]").get(index);
 		} catch (IndexOutOfBoundsException | NullPointerException e) {
-			//System.out.println(tickerSymbol + ": Could not getShareHolderEquityPeriodHeader(annualDocument, " + index + "), node not found. Trying for Quarter Document. ");
 			isYear = false;
-			isQuarter = true;
 		}
 		
 		if (!isYear) {
 			try { 
-				//System.out.println(tickerSymbol + ": Finding Quarter Document. ");
 				yearNode = document.select("table.crDataTable:contains(5-qtr trend)").get(1).select("th[scope]").get(index);
 			} catch (IndexOutOfBoundsException | NullPointerException e) {
-				isQuarter = false;
-				System.out.println(tickerSymbol + ": Could not getShareHolderEquityPeriodHeader(quarterDocument, " + index + "), both year and quarter nodes not found. ");
+				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getShareHolderEquityPeriodHeader(quarterDocument, " + index + "), both year and quarter nodes not found. (" + e + ")", LogType.TRACE);
 				return null;
 			}
-		}
-		if (isQuarter) {
-			//System.out.println(tickerSymbol + ": Found Quarter Document. ");
 		}
 		String shareHolderEquityYear = yearNode.text();
 		return shareHolderEquityYear;
 	}
 	
 	//Gets the EPS values by index, 0 would be oldest period (2013 for years) and 4 would be latest period (2017 for years) at the current year of 2018. The scraper content is an HTML table. 
-	public String getShareHolderEquityPeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
+	public String getShareHolderEquityPeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
 		Element shareHolderEquityNode;
 		try {
 			shareHolderEquityNode = document.select("tbody > tr.partialSum:contains(Total Shareholders)").get(0).select("td.valueCell").get(index);
 		} catch (IndexOutOfBoundsException | NullPointerException e) {
-			System.out.println(tickerSymbol + ": Could not getShareHolderEquityPeriodValue(document, " + index + "), node not found. ");
+			log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getShareHolderEquityPeriodValue(document, " + index + "), node not found. (" + e + ")", LogType.TRACE);
 			return null;
 		}
 		String shareHolderEquityValue = shareHolderEquityNode.text().replaceAll("[)]", "").replaceAll("[(]", "-"); //Sometimes values will have brackets like "(0.08)". 
@@ -127,12 +121,12 @@ public class ND3ROE extends ND2EPS {
 					return null;
 				}
 			} catch (NullPointerException e) {
-				System.out.println(tickerSymbol + ": Missing revenue information for year. " + e);
+				log.appendToEventLogsFile("(" + tickerSymbol + ") Missing revenue information for year. (" + e + ")", LogType.TRACE);
 				return null;
 			}
 			
 			if (!netIncomeYearValue.equals(shareHolderEquityYearValue)) {
-				System.out.println("["+tickerSymbol+"]: Cannot convert to Map, years for Net Income and Share Holder Equity are different. ");
+				log.appendToEventLogsFile("(" + tickerSymbol + ") Cannot convert to Map, years for Net Income and Share Holder Equity are different. ", LogType.WARN);
 				return null;
 			}
 			
@@ -178,12 +172,12 @@ public class ND3ROE extends ND2EPS {
 					return null;
 				}
 			} catch (NullPointerException e) {
-				System.out.println(tickerSymbol + ": Missing revenue information for quarter. " + e);
+				log.appendToEventLogsFile("(" + tickerSymbol + ") Missing revenue information for quarter. (" + e + ")", LogType.TRACE);
 				return null;
 			}
 			
 			if (!netIncomeQuarterValue.equals(shareHolderEquityQuarterValue)) {
-				System.out.println("["+tickerSymbol+"]: Cannot convert to Map, quarters for Net Income and Share Holder Equity are different. ");
+				log.appendToEventLogsFile("(" + tickerSymbol + ") Cannot convert to Map, quarters for Net Income and Share Holder Equity are different. ", LogType.WARN);
 				return null;
 			}
 			
@@ -221,7 +215,7 @@ public class ND3ROE extends ND2EPS {
 							break;
 					default: 	parsedQuarterValueBuilder.setLength(0);
 								parsedQuarterValueBuilder.append(netIncomeQuarterValue);
-								System.out.println("["+ tickerSymbol + "]: Cannot convert to Map, unexpected Quarter Month value: " + month);
+								log.appendToEventLogsFile("(" + tickerSymbol + ") Cannot convert to Map, unexpected Quarter Month value: " + month, LogType.WARN);
 								break;
 				}
 				String parsedQuarterValue = parsedQuarterValueBuilder.toString();

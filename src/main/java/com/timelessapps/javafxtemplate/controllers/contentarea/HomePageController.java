@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import main.java.com.timelessapps.javafxtemplate.app.businesslogic.MainBotRoutine;
 import main.java.com.timelessapps.javafxtemplate.app.supportingthreads.GlobalKeyListener;
+import main.java.com.timelessapps.javafxtemplate.helpers.abstractsandenums.LogType;
 import main.java.com.timelessapps.javafxtemplate.helpers.services.LoggingService;
 import main.java.com.timelessapps.javafxtemplate.helpers.services.RobotService;
 
@@ -29,15 +30,15 @@ public class HomePageController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-								if (!hasStarted)
-								{
-												try 
-												{
-																log.appendToEventLogsFile("ApplicationStarted. ");
-																log.appendToApplicationLogsFile("ApplicationStarted. ");
-												} catch (FileNotFoundException ex) {Logger.getLogger(HomePageController.class.getName()).log(Level.SEVERE, null, ex);}
-								}
-								hasStarted = true;
+		if (!hasStarted)
+		{
+			try 
+			{
+				log.appendToEventLogsFile("Application Started. Event log loaded. ", LogType.TRACE);
+				log.appendToApplicationLogsFile("Application Started. Application log loaded. ", LogType.TRACE);
+			} catch (FileNotFoundException ex) {Logger.getLogger(HomePageController.class.getName()).log(Level.SEVERE, null, ex);}
+		}
+		hasStarted = true;
     }    
     
     @FXML
