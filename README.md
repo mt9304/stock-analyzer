@@ -1,4 +1,5 @@
 # Stock Analyzer
+[![Build Status](https://travis-ci.org/mt9304/stock-analyzer.svg?branch=master)](https://travis-ci.org/mt9304/stock-analyzer)
 ## Extended from [JavaFXTemplate Project](https://github.com/mt9304/javafxtemplate)
 
 - [Introduction](#introduction)
