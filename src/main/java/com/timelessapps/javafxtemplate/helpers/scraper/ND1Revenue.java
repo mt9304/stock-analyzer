@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
@@ -23,7 +22,7 @@ public class ND1Revenue extends NDCore
 	/** *************************** **/
 	
 	//The period can be Years or Quarters. Years would be in the format "2013", Quarters would be in the format "30-Sep-2016"
-	public String getRevenuePeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
+	public String getRevenuePeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
 		Element yearNode = null;
 		Boolean isYear = true;
 		try { 
@@ -36,7 +35,13 @@ public class ND1Revenue extends NDCore
 			try { 
 				yearNode = document.select("table.crDataTable:contains(5-qtr trend)").get(0).select("th[scope]").get(index);
 			} catch (IndexOutOfBoundsException | NullPointerException e) {
-				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getRevenuePeriodHeader(document, " + index + "), both year and quarter nodes not found. (" + e + ")", LogType.TRACE);
+				try
+				{
+					log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getRevenuePeriodHeader(document, " + index + "), both year and quarter nodes not found. (" + e + ")", LogType.TRACE);
+				} catch (FileNotFoundException e1)
+				{
+					e1.printStackTrace();
+				}
 				return null;
 			}
 		}
@@ -46,13 +51,19 @@ public class ND1Revenue extends NDCore
 	}
 	
 	//Gets the revenue values by index, 0 would be oldest period (2013 for years) and 4 would be latest period (2017 for years) at the current year of 2018. The scraper content is an HTML table. 
-	public String getRevenuePeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
+	public String getRevenuePeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
 		Element revenueNode;
 		
 		try {
 			revenueNode = document.select("tbody > tr.partialSum:contains(Sales/Revenue)").get(0).select("td.valueCell").get(index);
 		} catch (IndexOutOfBoundsException | NullPointerException e) {
-			log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getRevenuePeriodValue(document, " + index + "), node not found. (" + e + ")", LogType.TRACE);
+			try
+			{
+				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getRevenuePeriodValue(document, " + index + "), node not found. (" + e + ")", LogType.TRACE);
+			} catch (FileNotFoundException e1)
+			{
+				e1.printStackTrace();
+			}
 			return null;
 		}
 		String revenueValue = revenueNode.text().replaceAll("[)]", "").replaceAll("[(]", "-");

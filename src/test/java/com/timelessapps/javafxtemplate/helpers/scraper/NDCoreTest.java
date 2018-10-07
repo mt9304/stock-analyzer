@@ -67,11 +67,7 @@ public class NDCoreTest extends TestCase {
 	@Test
 	public void testGetLatestIncomeValue_isNumber() {
 		String latestIncomeValue = null;
-		try {
-			latestIncomeValue = webScraper.getLatestIncomeValue();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		latestIncomeValue = webScraper.getLatestIncomeValue();
 		String regex = ".*\\d.*";
 		if (!latestIncomeValue.matches(regex)) {
 			System.out.print("testGetLatestIncomeValue_isNumber: ");
@@ -89,10 +85,7 @@ public class NDCoreTest extends TestCase {
 	public void testGetParsedAlphaNumericMoneyB() {
 		Long expectedResult = 11120000000L;
 		Long parsedNumericMoney = null;
-		try {
-			parsedNumericMoney = webScraper.getParsedAlphaNumericMoney("11.12B");
-		} catch (FileNotFoundException e) {
-		}
+		parsedNumericMoney = webScraper.getParsedAlphaNumericMoney("11.12B");
 		assertEquals(expectedResult, parsedNumericMoney);
 	}
 	
@@ -100,11 +93,7 @@ public class NDCoreTest extends TestCase {
 	public void testGetParsedAlphaNumericMoneyM() {
 		Long expectedResult = 311120000L;
 		Long parsedNumericMoney = null;
-		try {
-			parsedNumericMoney = webScraper.getParsedAlphaNumericMoney("311.12M");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		parsedNumericMoney = webScraper.getParsedAlphaNumericMoney("311.12M");
 		assertEquals(expectedResult, parsedNumericMoney);
 	}
 	
@@ -112,11 +101,7 @@ public class NDCoreTest extends TestCase {
 	public void testGetParsedAlphaNumericMoneyNoDecB() {
 		Long expectedResult = 22000000000L;
 		Long parsedNumericMoney = null;
-		try {
-			parsedNumericMoney = webScraper.getParsedAlphaNumericMoney("22B");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		parsedNumericMoney = webScraper.getParsedAlphaNumericMoney("22B");
 		assertEquals(expectedResult, parsedNumericMoney);
 	}
 	
@@ -124,11 +109,7 @@ public class NDCoreTest extends TestCase {
 	public void testGetParsedAlphaNumericMoneyNoDecM() {
 		Long expectedResult = 222000000L;
 		Long parsedNumericMoney = null;
-		try {
-			parsedNumericMoney = webScraper.getParsedAlphaNumericMoney("222M");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		parsedNumericMoney = webScraper.getParsedAlphaNumericMoney("222M");
 		assertEquals(expectedResult, parsedNumericMoney);
 	}
 	
@@ -136,11 +117,7 @@ public class NDCoreTest extends TestCase {
 	public void testGetParsedAlphaNumericMoneyNoLetter() {
 		Long expectedResult = null;
 		Long parsedNumericMoney = null;
-		try {
-			parsedNumericMoney = webScraper.getParsedAlphaNumericMoney("11.12");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		parsedNumericMoney = webScraper.getParsedAlphaNumericMoney("11.12");
 		assertEquals(expectedResult, parsedNumericMoney);
 	}
 	
@@ -148,11 +125,7 @@ public class NDCoreTest extends TestCase {
 	public void testGetParsedAlphaNumericMoneyNoLetterNoDec() {
 		Long expectedResult = null;
 		Long parsedNumericMoney = null;
-		try {
-			parsedNumericMoney = webScraper.getParsedAlphaNumericMoney("311");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		parsedNumericMoney = webScraper.getParsedAlphaNumericMoney("311");
 		assertEquals(expectedResult, parsedNumericMoney);
 	}
 	
@@ -170,11 +143,7 @@ public class NDCoreTest extends TestCase {
 		Double rawValue = 12.12353464;
 		int decimalSpaces = 2;
 		Double actualResult = null;
-		try {
-			actualResult = webScraper.useDecimalPlaces(rawValue, decimalSpaces);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		actualResult = webScraper.useDecimalPlaces(rawValue, decimalSpaces);
 		assertEquals(expectedResult, actualResult);
 	}
 	
@@ -184,11 +153,7 @@ public class NDCoreTest extends TestCase {
 		Double rawValue = 12.12353464;
 		int decimalSpaces = 4;
 		Double actualResult = null;
-		try {
-			actualResult = webScraper.useDecimalPlaces(rawValue, decimalSpaces);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		actualResult = webScraper.useDecimalPlaces(rawValue, decimalSpaces);
 		assertEquals(expectedResult, actualResult);
 	}
 	
@@ -198,11 +163,7 @@ public class NDCoreTest extends TestCase {
 		Double rawValue = 2.12353464;
 		int decimalSpaces = 2;
 		Double actualResult = null;
-		try {
-			actualResult = webScraper.useDecimalPlaces(rawValue, decimalSpaces);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		actualResult = webScraper.useDecimalPlaces(rawValue, decimalSpaces);
 		assertEquals(expectedResult, actualResult);
 	}
 	
@@ -212,11 +173,7 @@ public class NDCoreTest extends TestCase {
 		Double rawValue = 2.12353464;
 		int decimalSpaces = 4;
 		Double actualResult = null;
-		try {
-			actualResult = webScraper.useDecimalPlaces(rawValue, decimalSpaces);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		actualResult = webScraper.useDecimalPlaces(rawValue, decimalSpaces);
 		assertEquals(expectedResult, actualResult);
 	}
 	
@@ -226,11 +183,7 @@ public class NDCoreTest extends TestCase {
 		Double rawValue = 12.10000;
 		int decimalSpaces = 2;
 		Double actualResult = null;
-		try {
-			actualResult = webScraper.useDecimalPlaces(rawValue, decimalSpaces);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		actualResult = webScraper.useDecimalPlaces(rawValue, decimalSpaces);
 		assertEquals(expectedResult, actualResult);
 	}
 	
@@ -240,11 +193,7 @@ public class NDCoreTest extends TestCase {
 		Double rawValue = 12.100000000;
 		int decimalSpaces = 4;
 		Double actualResult = null;
-		try {
-			actualResult = webScraper.useDecimalPlaces(rawValue, decimalSpaces);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		actualResult = webScraper.useDecimalPlaces(rawValue, decimalSpaces);
 		assertEquals(expectedResult, actualResult);
 	}
 	
@@ -254,11 +203,7 @@ public class NDCoreTest extends TestCase {
 		Double rawValue = 2.0000000;
 		int decimalSpaces = 2;
 		Double actualResult = null;
-		try {
-			actualResult = webScraper.useDecimalPlaces(rawValue, decimalSpaces);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		actualResult = webScraper.useDecimalPlaces(rawValue, decimalSpaces);
 		assertEquals(expectedResult, actualResult);
 	}
 	
@@ -268,11 +213,7 @@ public class NDCoreTest extends TestCase {
 		Double rawValue = 12.000000000;
 		int decimalSpaces = 4;
 		Double actualResult = null;
-		try {
-			actualResult = webScraper.useDecimalPlaces(rawValue, decimalSpaces);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		actualResult = webScraper.useDecimalPlaces(rawValue, decimalSpaces);
 		assertEquals(expectedResult, actualResult);
 	}
 	
@@ -289,11 +230,7 @@ public class NDCoreTest extends TestCase {
 		Long latestPeriodValue = 570000L;
 		Long secondLatestPeriodValue = 460000L;
 		Double actualResult = null;
-		try {
-			actualResult = webScraper.convertDifferenceToPercent(latestPeriodValue, secondLatestPeriodValue);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		actualResult = webScraper.convertDifferenceToPercent(latestPeriodValue, secondLatestPeriodValue);
 		assertEquals(expectedResult, actualResult);
 	}
 	
@@ -303,11 +240,7 @@ public class NDCoreTest extends TestCase {
 		Long latestPeriodValue = 560000L;
 		Long secondLatestPeriodValue = 545000L;
 		Double actualResult = null;
-		try {
-			actualResult = webScraper.convertDifferenceToPercent(latestPeriodValue, secondLatestPeriodValue);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		actualResult = webScraper.convertDifferenceToPercent(latestPeriodValue, secondLatestPeriodValue);
 		assertEquals(expectedResult, actualResult);
 	}
 	
@@ -318,11 +251,7 @@ public class NDCoreTest extends TestCase {
 		Long latestPeriodValue = 755000L;
 		Long secondLatestPeriodValue = 860000L;
 		Double actualResult = null;
-		try {
-			actualResult = webScraper.convertDifferenceToPercent(latestPeriodValue, secondLatestPeriodValue);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		actualResult = webScraper.convertDifferenceToPercent(latestPeriodValue, secondLatestPeriodValue);
 		assertEquals(expectedResult, actualResult);
 	}
 	
@@ -332,11 +261,7 @@ public class NDCoreTest extends TestCase {
 		Long latestPeriodValue = 740000L;
 		Long secondLatestPeriodValue = 790000L;
 		Double actualResult = null;
-		try {
-			actualResult = webScraper.convertDifferenceToPercent(latestPeriodValue, secondLatestPeriodValue);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		actualResult = webScraper.convertDifferenceToPercent(latestPeriodValue, secondLatestPeriodValue);
 		assertEquals(expectedResult, actualResult);
 	}
 	

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
@@ -24,7 +23,7 @@ public class ND3ROE extends ND2EPS {
 	
 	/** Total Net Income Start. **/
 	//The period can be Years or Quarters. Years would be in the format "2013", Quarters would be in the format "30-Sep-2016"
-	public String getNetIncomePeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
+	public String getNetIncomePeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
 		Element yearNode = null;
 		Boolean isYear = true;
 		Boolean isQuarter = false;
@@ -41,7 +40,14 @@ public class ND3ROE extends ND2EPS {
 				yearNode = document.select("table.crDataTable:contains(5-qtr trend)").get(1).select("th[scope]").get(index);
 			} catch (IndexOutOfBoundsException | NullPointerException e) {
 				isQuarter = false;
-				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getNetIncomePeriodHeader(document, " + index + "), both year and quarter nodes not found. (" + e + ")", LogType.TRACE);
+				try
+				{
+					log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getNetIncomePeriodHeader(document, " + index + "), both year and quarter nodes not found. (" + e + ")", LogType.TRACE);
+				} catch (FileNotFoundException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				return null;
 			}
 		}
@@ -53,13 +59,20 @@ public class ND3ROE extends ND2EPS {
 	}
 	
 	//Gets the EPS values by index, 0 would be oldest period (2013 for years) and 4 would be latest period (2017 for years) at the current year of 2018. The scraper content is an HTML table. 
-	public String getNetIncomePeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
+	public String getNetIncomePeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
 		Element netIncomeNode;
 		
 		try {
 			netIncomeNode = document.select("tbody > tr.totalRow:contains(Net Income)").get(0).select("td.valueCell").get(index);
 		} catch (IndexOutOfBoundsException | NullPointerException e) {
-			log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getNetIncomePeriodValue(document, " + index + "), node not found. (" + e + ")", LogType.TRACE);
+			try
+			{
+				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getNetIncomePeriodValue(document, " + index + "), node not found. (" + e + ")", LogType.TRACE);
+			} catch (FileNotFoundException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			return null;
 		}
 		
@@ -70,7 +83,7 @@ public class ND3ROE extends ND2EPS {
 	
 	/** Total Shareholder's Equity Start. **/
 	//The period can be Years or Quarters. Years would be in the format "2013", Quarters would be in the format "30-Sep-2016"
-	public String getShareHolderEquityPeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
+	public String getShareHolderEquityPeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
 		Element yearNode = null;
 		Boolean isYear = true;
 		try { 
@@ -83,7 +96,14 @@ public class ND3ROE extends ND2EPS {
 			try { 
 				yearNode = document.select("table.crDataTable:contains(5-qtr trend)").get(1).select("th[scope]").get(index);
 			} catch (IndexOutOfBoundsException | NullPointerException e) {
-				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getShareHolderEquityPeriodHeader(quarterDocument, " + index + "), both year and quarter nodes not found. (" + e + ")", LogType.TRACE);
+				try
+				{
+					log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getShareHolderEquityPeriodHeader(quarterDocument, " + index + "), both year and quarter nodes not found. (" + e + ")", LogType.TRACE);
+				} catch (FileNotFoundException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				return null;
 			}
 		}
@@ -92,12 +112,19 @@ public class ND3ROE extends ND2EPS {
 	}
 	
 	//Gets the EPS values by index, 0 would be oldest period (2013 for years) and 4 would be latest period (2017 for years) at the current year of 2018. The scraper content is an HTML table. 
-	public String getShareHolderEquityPeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
+	public String getShareHolderEquityPeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
 		Element shareHolderEquityNode;
 		try {
 			shareHolderEquityNode = document.select("tbody > tr.partialSum:contains(Total Shareholders)").get(0).select("td.valueCell").get(index);
 		} catch (IndexOutOfBoundsException | NullPointerException e) {
-			log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getShareHolderEquityPeriodValue(document, " + index + "), node not found. (" + e + ")", LogType.TRACE);
+			try
+			{
+				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getShareHolderEquityPeriodValue(document, " + index + "), node not found. (" + e + ")", LogType.TRACE);
+			} catch (FileNotFoundException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			return null;
 		}
 		String shareHolderEquityValue = shareHolderEquityNode.text().replaceAll("[)]", "").replaceAll("[(]", "-"); //Sometimes values will have brackets like "(0.08)". 

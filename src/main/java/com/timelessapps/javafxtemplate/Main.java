@@ -5,7 +5,10 @@
  */
 package main.java.com.timelessapps.javafxtemplate;
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +19,10 @@ import javafx.stage.StageStyle;
 import main.java.com.timelessapps.javafxtemplate.app.businesslogic.MainBotRoutine;
 import main.java.com.timelessapps.javafxtemplate.app.businesslogic.ScrapeWithoutGUI;
 import main.java.com.timelessapps.javafxtemplate.app.supportingthreads.GlobalKeyListener;
+import main.java.com.timelessapps.javafxtemplate.controllers.contentarea.HomePageController;
 import main.java.com.timelessapps.javafxtemplate.controllers.contentarea.LogsPageController;
+import main.java.com.timelessapps.javafxtemplate.helpers.abstractsandenums.LogType;
+import main.java.com.timelessapps.javafxtemplate.helpers.services.LoggingService;
 
 public class Main extends Application
 {
@@ -76,6 +82,15 @@ public class Main extends Application
     
     public static void runWithoutGUI() {
     	System.out.println("Running without GUI. ");
+    	
+    	LoggingService log = new LoggingService();
+    	
+		try 
+		{
+			log.appendToEventLogsFile("Application started without GUI. Event log loaded. ", LogType.TRACE);
+			log.appendToApplicationLogsFile("Application started without GUI. Application log loaded. ", LogType.TRACE);
+		} catch (FileNotFoundException ex) {Logger.getLogger(HomePageController.class.getName()).log(Level.SEVERE, null, ex);}
+    	
     	ScrapeWithoutGUI scrapeWithoutGUI = new ScrapeWithoutGUI();
     	scrapeWithoutGUI.setDaemon(true);
     	scrapeWithoutGUI.start();

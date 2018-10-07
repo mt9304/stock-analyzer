@@ -21,7 +21,7 @@ public class ND2EPS extends ND1Revenue {
 	/** *********************** **/
 	
 	//The period can be Years or Quarters. Years would be in the format "2013", Quarters would be in the format "30-Sep-2016"
-	public String getEPSPeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
+	public String getEPSPeriodHeader(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
 		Element yearNode = null;
 		Boolean isYear = true;
 		try { 
@@ -34,7 +34,12 @@ public class ND2EPS extends ND1Revenue {
 			try { 
 				yearNode = document.select("table.crDataTable:contains(5-qtr trend)").get(1).select("th[scope]").get(index);
 			} catch (IndexOutOfBoundsException | NullPointerException e) {
-				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getEPSPeriodHeader(document, " + index + "), both year and quarter nodes not found. (" + e + ")", LogType.TRACE);
+				try
+				{
+					log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getEPSPeriodHeader(document, " + index + "), both year and quarter nodes not found. (" + e + ")", LogType.TRACE);
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
 				return null;
 			}
 		}
@@ -43,12 +48,17 @@ public class ND2EPS extends ND1Revenue {
 	}
 	
 	//Gets the EPS values by index, 0 would be oldest period (2013 for years) and 4 would be latest period (2017 for years) at the current year of 2018. The scraper content is an HTML table. 
-	public String getEPSPeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
+	public String getEPSPeriodValue(Document document, int index) throws InterruptedException, IndexOutOfBoundsException {
 		Element epsNode;
 		try {
 			epsNode = document.getElementsByClass("crDataTable").get(1).select("tbody > tr.mainRow:contains(EPS (Basic))").get(0).select("td.valueCell").get(index);
 		} catch (IndexOutOfBoundsException | NullPointerException e) {
-			log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getEPSPeriodValue(document, " + index + "), node not found. (" + e + ")", LogType.TRACE);
+			try
+			{
+				log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getEPSPeriodValue(document, " + index + "), node not found. (" + e + ")", LogType.TRACE);
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
 			return null;
 		}
 		String epsValue = epsNode.text().replaceAll("[)]", "").replaceAll("[(]", "-");//Sometimes values will have brackets like "(0.08)", indicating negative numbers. 

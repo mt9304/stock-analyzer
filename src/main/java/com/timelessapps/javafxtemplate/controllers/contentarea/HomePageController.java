@@ -34,8 +34,8 @@ public class HomePageController implements Initializable
 		{
 			try 
 			{
-				log.appendToEventLogsFile("Application Started. Event log loaded. ", LogType.TRACE);
-				log.appendToApplicationLogsFile("Application Started. Application log loaded. ", LogType.TRACE);
+				log.appendToEventLogsFile("Application started. Event log loaded. ", LogType.TRACE);
+				log.appendToApplicationLogsFile("Application started. Application log loaded. ", LogType.TRACE);
 			} catch (FileNotFoundException ex) {Logger.getLogger(HomePageController.class.getName()).log(Level.SEVERE, null, ex);}
 		}
 		hasStarted = true;

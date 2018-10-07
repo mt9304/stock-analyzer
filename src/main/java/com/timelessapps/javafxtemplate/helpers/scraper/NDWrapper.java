@@ -1,9 +1,7 @@
 package main.java.com.timelessapps.javafxtemplate.helpers.scraper;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,15 +27,15 @@ public class NDWrapper {
 					return webScraper.getCurrentPrice();
 				}
 				
-				public String getPERatio() throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
+				public String getPERatio() throws InterruptedException, IndexOutOfBoundsException {
 					return webScraper.getPERatio();
 				}
 				
-				public String getVolume() throws InterruptedException, IndexOutOfBoundsException, FileNotFoundException {
+				public String getVolume() throws InterruptedException, IndexOutOfBoundsException {
 					return webScraper.getVolume();
 				}
 				
-				public Boolean hasPositiveLatestIncome() throws FileNotFoundException {
+				public Boolean hasPositiveLatestIncome() {
 					String latestIncomeValue = webScraper.getLatestIncomeValue();
 					
 					if (latestIncomeValue == null || latestIncomeValue.equals("")) {
@@ -382,11 +380,11 @@ public class NDWrapper {
 				/** Start: 4 Analyst Recommendation **/
 				/** ******************************* **/
 				
-				public String getAnalystRecommendation() throws IndexOutOfBoundsException, FileNotFoundException {
+				public String getAnalystRecommendation() throws IndexOutOfBoundsException {
 					return webScraper.getAnalystRecommendation();
 				}
 				
-				public Boolean analystRecommendationIsPositive() throws IndexOutOfBoundsException, FileNotFoundException {
+				public Boolean analystRecommendationIsPositive() throws IndexOutOfBoundsException {
 					String analystRecommendation = getAnalystRecommendation();
 					
 					if (analystRecommendation == null) {
@@ -409,11 +407,11 @@ public class NDWrapper {
 				/** Start: 9 Industry **/
 				/** ***************** **/
 				
-				public String getIndustry() throws InterruptedException, FileNotFoundException {
+				public String getIndustry() throws InterruptedException {
 					return webScraper.getIndustry();
 				}
 				
-				public String getSector() throws InterruptedException, FileNotFoundException {
+				public String getSector() throws InterruptedException {
 					return webScraper.getSector();
 				}
 				
@@ -423,11 +421,9 @@ public class NDWrapper {
 				
 				/** ************************** **/
 				/** Start: 11 Insider Activity **/
-				/** ************************** 
-				 * @throws FileNotFoundException 
-				 * @throws IndexOutOfBoundsException **/
+				/** ************************** **/
 				
-				public Boolean hasMoreInsiderBuysThanSells() throws IndexOutOfBoundsException, FileNotFoundException {
+				public Boolean hasMoreInsiderBuysThanSells() throws IndexOutOfBoundsException {
 					Integer sharesPurchased = webScraper.getSharesPurchasedInLastThreeMonths();
 					Integer sharesSold = webScraper.getSharesSoldInLastThreeMonths();
 					
