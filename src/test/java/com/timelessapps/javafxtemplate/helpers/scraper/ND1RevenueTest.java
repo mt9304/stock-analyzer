@@ -1,6 +1,7 @@
 package test.java.com.timelessapps.javafxtemplate.helpers.scraper;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -35,7 +36,7 @@ public class ND1RevenueTest extends TestCase {
 	//Tests if the site is still following the same HTML layout. Header should be a four digit number like 2013. If stock is new, this is okay to fail. 
 	@Test
 	public void testGetRevenuePeriodHeader_firstAnnualHeader_isYear() throws NumberFormatException, IOException, InterruptedException {
-		Document incomeDocument = Jsoup.connect(incomeUrl).get();
+		Document incomeDocument = getDocument(incomeUrl);
 		Thread.sleep(scrapeDelay);
 		String firstHeaderValue = webScraper.getRevenuePeriodHeader(incomeDocument, 0);
 		String regex = "\\d{4}";
@@ -48,7 +49,7 @@ public class ND1RevenueTest extends TestCase {
 	
 	//Tests if the site is still following the same HTML layout. Header should be a four digit number like 2017. 
 	public void testGetRevenuePeriodHeader_lastAnnualHeader_isYears() throws NumberFormatException, IOException, InterruptedException {
-		Document incomeDocument = Jsoup.connect(incomeUrl).get();
+		Document incomeDocument = getDocument(incomeUrl);
 		Thread.sleep(scrapeDelay);
 		String lastHeaderValue = webScraper.getRevenuePeriodHeader(incomeDocument, 4);
 		String regex = "\\d{4}";
@@ -62,7 +63,7 @@ public class ND1RevenueTest extends TestCase {
 	//Tests if the site is still following the same HTML layout. Revenue value should contain at least one number like 20.2M. If stock is new, this is okay to fail.
 	@Test
 	public void testGetRevenuePeriodValue_firstValue_hasNumbers() throws NumberFormatException, IOException, InterruptedException {
-		Document incomeDocument = Jsoup.connect(incomeUrl).get();
+		Document incomeDocument = getDocument(incomeUrl);
 		Thread.sleep(scrapeDelay);
 		String firstRevenueValue = webScraper.getRevenuePeriodValue(incomeDocument,0);
 		String regex = "\\d.*";
@@ -76,7 +77,7 @@ public class ND1RevenueTest extends TestCase {
 	//Tests if the site is still following the same HTML layout. Revenue value should contain at least one number like 4.2B. 
 	@Test
 	public void testGetRevenuePeriodValue_lastValue_hasNumbers() throws NumberFormatException, IOException, InterruptedException {
-		Document incomeDocument = Jsoup.connect(incomeUrl).get();
+		Document incomeDocument = getDocument(incomeUrl);
 		Thread.sleep(scrapeDelay);
 		String lastHeaderValue = webScraper.getRevenuePeriodValue(incomeDocument, 4);
 		String regex = "\\d.*";
@@ -90,7 +91,7 @@ public class ND1RevenueTest extends TestCase {
 	//Tests if the site is still following the same HTML layout. Header should be a full date like 31-Dec-2016. If stock is new, this is okay to fail. 
 	@Test
 	public void testGetRevenuePeriodHeader_firstQuarterHeader_isQuarter() throws NumberFormatException, IOException, InterruptedException {
-		Document incomeQuarterDocument = Jsoup.connect(incomeQuarterUrl).get();
+		Document incomeQuarterDocument = getDocument(incomeQuarterUrl);
 		Thread.sleep(scrapeDelay);
 		String firstHeaderValue = webScraper.getRevenuePeriodHeader(incomeQuarterDocument, 0);
 		String regex = "\\d{2}[-][A-Z][a-z]{2}[-]\\d{4}";
@@ -104,7 +105,7 @@ public class ND1RevenueTest extends TestCase {
 	//Tests if the site is still following the same HTML layout. Header should be a full date like 31-Dec-2016. 
 	@Test
 	public void testGetRevenuePeriodHeader_lastQuarterHeader_isQuarter() throws NumberFormatException, IOException, InterruptedException {
-		Document incomeQuarterDocument = Jsoup.connect(incomeQuarterUrl).get();
+		Document incomeQuarterDocument = getDocument(incomeQuarterUrl);
 		Thread.sleep(scrapeDelay);
 		String lastHeaderValue = webScraper.getRevenuePeriodHeader(incomeQuarterDocument, 4);
 		String regex = "\\d{2}[-][A-Z][a-z]{2}[-]\\d{4}";
@@ -118,7 +119,7 @@ public class ND1RevenueTest extends TestCase {
 	//Tests if the site is still following the same HTML layout. Revenue value should contain at least one number like 20.2M. If stock is new, this is okay to fail.
 	@Test
 	public void testGetRevenuePeriodValue_firstQuarterValue_hasNumbers() throws NumberFormatException, IOException, InterruptedException {
-		Document incomeQuarterDocument = Jsoup.connect(incomeQuarterUrl).get();
+		Document incomeQuarterDocument = getDocument(incomeQuarterUrl);
 		Thread.sleep(scrapeDelay);
 		String firstRevenueValue = webScraper.getRevenuePeriodValue(incomeQuarterDocument,0);
 		String regex = "\\d.*";
@@ -132,7 +133,7 @@ public class ND1RevenueTest extends TestCase {
 	//Tests if the site is still following the same HTML layout. Revenue value should contain at least one number like 4.2B. 
 	@Test
 	public void testGetRevenuePeriodValue_lastQuarterValue_hasNumbers() throws NumberFormatException, IOException, InterruptedException {
-		Document incomeQuarterDocument = Jsoup.connect(incomeQuarterUrl).get();
+		Document incomeQuarterDocument = getDocument(incomeQuarterUrl);
 		Thread.sleep(scrapeDelay);
 		String lastHeaderValue = webScraper.getRevenuePeriodValue(incomeQuarterDocument, 4);
 		String regex = "\\d.*";
@@ -183,6 +184,25 @@ public class ND1RevenueTest extends TestCase {
 			}
 		}
 		assertTrue(matchesPattern);
+	}
+	
+	//For getting documents and avoiding timeout error. 
+	public Document getDocument(String url) {
+	    Document doc = null;
+
+	    for (int i=0;i<3;i++) {
+	        try {
+	        	System.out.println(tickerSymbol + ": Getting document for " + url);
+	            doc = Jsoup.connect(url).get();
+	            break;
+	        } catch (SocketTimeoutException ex){
+	            System.out.println(tickerSymbol + ": Could not get document for " + url + ". Trying " + i+1 + "/3");              
+	        }
+	        catch (IOException e) {
+	        	System.out.println(tickerSymbol + ": Could not get document for " + url + ". Trying " + i+1 + "/3"); 
+	        }           
+	    }
+	    return doc;
 	}
 
 }

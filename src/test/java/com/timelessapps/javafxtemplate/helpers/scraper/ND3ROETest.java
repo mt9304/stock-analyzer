@@ -3,6 +3,7 @@ package test.java.com.timelessapps.javafxtemplate.helpers.scraper;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,7 +40,7 @@ public class ND3ROETest {
 	//Tests if the site is still following the same HTML layout. Header should be a four digit number like 2013. If stock is new, this is okay to fail. 
 	@Test
 	public void testGetFirstNetIncomePeriodHeader_firstAnnualHeader_isYear() throws InterruptedException, IOException {
-		Document incomeDocument = Jsoup.connect(incomeUrl).get();
+		Document incomeDocument = getDocument(incomeUrl);
 		Thread.sleep(scrapeDelay);
 		String firstHeaderValue = webScraper.getNetIncomePeriodHeader(incomeDocument, 0);
 		String regex = "\\d{4}";
@@ -52,7 +53,7 @@ public class ND3ROETest {
 	
 	@Test
 	public void testGetFirstNetIncomePeriodValue_firstValue_hasNumbers() throws InterruptedException, IOException {
-		Document incomeDocument = Jsoup.connect(incomeUrl).get();
+		Document incomeDocument = getDocument(incomeUrl);
 		Thread.sleep(scrapeDelay);
 		String firstNetIncomeValue = webScraper.getNetIncomePeriodValue(incomeDocument,0);
 		String regex = "\\d.*";
@@ -66,7 +67,7 @@ public class ND3ROETest {
 	//Tests if the site is still following the same HTML layout. Header should be a four digit number like 2013. If stock is new, this is okay to fail. 
 	@Test
 	public void testGetFirstShareHolderEquityPeriodHeader_firstAnnualHeader_isYear() throws InterruptedException, IOException {
-		Document balanceSheetDocument = Jsoup.connect(balanceSheetUrl).get();
+		Document balanceSheetDocument = getDocument(balanceSheetUrl);
 		Thread.sleep(scrapeDelay);
 		String firstHeaderValue = webScraper.getShareHolderEquityPeriodHeader(balanceSheetDocument, 0);
 		String regex = "\\d{4}";
@@ -80,7 +81,7 @@ public class ND3ROETest {
 	//For EPS, there may not be a number for latest year. 
 	@Test
 	public void testGetFirstShareHolderEquityPeriodValue_firstValue_hasNumbers() throws InterruptedException, IOException {
-		Document balanceSheetDocument = Jsoup.connect(balanceSheetUrl).get();
+		Document balanceSheetDocument = getDocument(balanceSheetUrl);
 		Thread.sleep(scrapeDelay);
 		String firstShareHolderEquityValue = webScraper.getShareHolderEquityPeriodValue(balanceSheetDocument,0);
 		String regex = "\\d.*";
@@ -132,5 +133,24 @@ public class ND3ROETest {
 			}
 		}
 		assertTrue(matchesPattern);
+	}
+	
+	//For getting documents and avoiding timeout error. 
+	public Document getDocument(String url) {
+	    Document doc = null;
+
+	    for (int i=0;i<3;i++) {
+	        try {
+	        	System.out.println(tickerSymbol + ": Getting document for " + url);
+	            doc = Jsoup.connect(url).get();
+	            break;
+	        } catch (SocketTimeoutException ex){
+	            System.out.println(tickerSymbol + ": Could not get document for " + url + ". Trying " + i+1 + "/3");              
+	        }
+	        catch (IOException e) {
+	        	System.out.println(tickerSymbol + ": Could not get document for " + url + ". Trying " + i+1 + "/3"); 
+	        }           
+	    }
+	    return doc;
 	}
 }
