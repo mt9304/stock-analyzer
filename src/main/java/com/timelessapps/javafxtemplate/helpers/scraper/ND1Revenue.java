@@ -135,7 +135,9 @@ public class ND1Revenue extends NDCore
 								break;
 					default: 	parsedQuarterValueBuilder.setLength(0);
 								parsedQuarterValueBuilder.append(quarterValue);
-								log.appendToEventLogsFile("(" + tickerSymbol + ") Cannot convert to Map, unexpected Quarter Month value: " + month, LogType.WARN);
+								try { 
+										log.appendToEventLogsFile("(" + tickerSymbol + ") Cannot convert to Map, unexpected Quarter Month value: " + month, LogType.WARN);
+									} catch (FileNotFoundException e) {	}
 								break;
 				}
 				String parsedQuarterValue = parsedQuarterValueBuilder.toString();

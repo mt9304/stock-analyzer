@@ -1,5 +1,6 @@
 package main.java.com.timelessapps.javafxtemplate.helpers.scraper;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -68,7 +69,9 @@ public class NDWrapper {
 										break;
 						case QUARTER: 	revenueByPeriod = webScraper.getRevenueByQuarters();
 										break;
-						default: 		log.appendToEventLogsFile("(" + tickerSymbol + ") Invalid period entered: " + period, LogType.ERROR);
+						default: 		try {
+											log.appendToEventLogsFile("(" + tickerSymbol + ") Invalid period entered: " + period, LogType.ERROR);
+										} catch (FileNotFoundException e) { }
 										break;
 					}
 
@@ -122,7 +125,9 @@ public class NDWrapper {
 										break;
 						case QUARTER: 	revenueByPeriod = webScraper.getRevenueByQuarters();
 										break;
-						default: 		log.appendToEventLogsFile("(" + tickerSymbol + ") Invalid period entered: " + period, LogType.ERROR);
+						default: 		try {
+											log.appendToEventLogsFile("(" + tickerSymbol + ") Invalid period entered: " + period, LogType.ERROR);
+										} catch (FileNotFoundException e) { }
 										break;
 					}
 
@@ -193,7 +198,9 @@ public class NDWrapper {
 										break;
 						case QUARTER: 	epsByPeriod = webScraper.getEPSByQuarters();
 										break;
-						default: 		log.appendToEventLogsFile("(" + tickerSymbol + ") Invalid period entered: " + period, LogType.ERROR);
+						default: 		try {
+											log.appendToEventLogsFile("(" + tickerSymbol + ") Invalid period entered: " + period, LogType.ERROR);
+										} catch (FileNotFoundException e) { }
 										break;
 					}
 
@@ -247,7 +254,9 @@ public class NDWrapper {
 										break;
 						case QUARTER: 	epsByPeriod = webScraper.getEPSByQuarters();
 										break;
-						default: 		log.appendToEventLogsFile("(" + tickerSymbol + ") Invalid period entered: " + period, LogType.ERROR);
+						default: 		try {
+											log.appendToEventLogsFile("(" + tickerSymbol + ") Invalid period entered: " + period, LogType.ERROR);
+										} catch (FileNotFoundException e) { }
 										break;
 					}
 
@@ -313,7 +322,9 @@ public class NDWrapper {
 										break;
 						case QUARTER: 	roeByPeriod = webScraper.getROEByQuarters();
 										break;
-						default: 		log.appendToEventLogsFile("(" + tickerSymbol + ") Invalid period entered: " + period, LogType.ERROR);
+						default: 		try {
+											log.appendToEventLogsFile("(" + tickerSymbol + ") Invalid period entered: " + period, LogType.ERROR);
+										} catch (FileNotFoundException e) { }
 										break;
 					}
 

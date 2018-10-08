@@ -84,7 +84,9 @@ public class NDCore {
 	    for (int i=0;i<3;i++) {
 	        try {
 	        	System.out.println(tickerSymbol + ": Getting document for " + url);
-	        	log.appendToEventLogsFile("(" + tickerSymbol + ") Getting document for " + url, LogType.TRACE);
+	        	try {
+	        		log.appendToEventLogsFile("(" + tickerSymbol + ") Getting document for " + url, LogType.TRACE);
+	        	} catch (FileNotFoundException e) {}
 	            doc = Jsoup.connect(url).get();
 	            break;
 	        } catch (SocketTimeoutException ex){
@@ -122,6 +124,7 @@ public class NDCore {
 		try {
 			stockPriceElement = profileDocument.getElementsByClass("pricewrap").get(0).getElementsByClass("data").get(0);
 		} catch (IndexOutOfBoundsException e) {
+			
 			log.appendToEventLogsFile("(" + tickerSymbol + ") Could not getCurrentPrice(), node not found. (" + e + ")", LogType.TRACE);
 			return null;
 		}

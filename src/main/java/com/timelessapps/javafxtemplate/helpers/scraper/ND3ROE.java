@@ -238,7 +238,9 @@ public class ND3ROE extends ND2EPS {
 							break;
 					default: 	parsedQuarterValueBuilder.setLength(0);
 								parsedQuarterValueBuilder.append(netIncomeQuarterValue);
-								log.appendToEventLogsFile("(" + tickerSymbol + ") Cannot convert to Map, unexpected Quarter Month value: " + month, LogType.WARN);
+								try {
+									log.appendToEventLogsFile("(" + tickerSymbol + ") Cannot convert to Map, unexpected Quarter Month value: " + month, LogType.WARN);
+								} catch (FileNotFoundException e) { }
 								break;
 				}
 				String parsedQuarterValue = parsedQuarterValueBuilder.toString();
